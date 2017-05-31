@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<ui:composition template="/templates/LayoutPadrao2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="conteudo">
+
+		<div class="aw-error-panel" align="center">
+			<h1 class="aw-error-panel__code">
+				<i class="fa  fa-location-arrow"></i> 500
+			</h1>
+
+			<h2 class="aw-error-panel__title">Erro no servidor</h2>
+
+			<div class="aw-error-panel__description">
+				Desculpe, algo muito estranho aconteceu e não conseguimos processar
+				a sua requisição. Tente de novo ou entre em contato com a gente se
+				precisar de ajuda. <br />
+				<br />
+				#{requestScope['javax.servlet.error.message']}
+				<br/><br/>
+				<h:form>
+					<p:commandButton icon="fa  fa-sign-out" width="25" title="Sair do sistema" 
+						onclick="logout()" />
+						<p:remoteCommand name="logout" actionListener="#{auth.logout()}" />
+					
+					<a href="javascript:history.back()" class="btn  btn-primary"><em class="fa  fa-arrow-left"></em> Voltar</a>
+					<a href="./principal.jsf" class="btn  btn-primary" ><em class="fa  fa-home"></em> Home</a>
+					<a href="/logout" class="btn  btn-primary"><em class="fa  fa-sign-out"></em> Logout</a>
+				</h:form>
+
+
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+	
+	
+	
+	<h:form id="formMenu">
+	
+	   <i class="fa fa-user fa-2x" aria-hidden="true" /> #{username}
+	LEONARDO
+	<nav class="vertical">
+	  <ul>
+	    <li><a href="./principal.jsf" class="fa fa-home">   Home</a></li>
+	    <li><a href="" onclick="return false;" class="fa fa-book">   Cadastro <i class="fa fa-plus-circle" aria-hidden="true" /></a>
+	      <ul>
+	        <li><a href="./listaUsuario.jsf">Usuários</a></li>
+	        <li><a href="./listaCliente.jsf">Cliente</a></li>
+	        <li><a href="./listaEmpresa.jsf">Empresas</a></li>
+	        <li><a href="./listaProduto.jsf">Produtos</a></li>
+	      </ul>
+	    </li>
+	    <li><a href="#" class="fa fa-line-chart">   Gerenciamento <i class="fa fa-plus-circle" aria-hidden="true" /></a>
+	      <ul>
+	        <li><a href="./emitirNfe.jsf">NF-e Mercantil</a></li>
+	        <li>
+	          <a href="#">Sites <i class="fa fa-plus-circle" aria-hidden="true" /></a>
+	          <ul>
+	            <li><a href="#">Site 1</a></li>
+	            <li><a href="#">Site 2</a></li>
+	          </ul>
+	        </li>
+	        <li><a href="#">Gadgets <i class="fa fa-plus-circle" aria-hidden="true" /></a>
+	          <ul>
+	            <li><a href="#">Gadget 1</a></li>
+	            <li><a href="#">Gadget 2</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	    </li>
+	    <li><a href="" class="fa fa-cog">   Configuração</a></li>
+	    <h:form>
+	    	<li><p:commandLink onclick="logout()" immediate="true" class="fa fa-reply" title="Sair" value="   Sair" /></li>
+<!-- 	    			    <li><p:link onclick="logout()"  value="Sair" /></li> -->
+		    <p:remoteCommand name="logout" actionListener="#{auth.logout()}" />
+
+	    </h:form>
+	  </ul>
+	</nav>
+	</h:form>
+</ui:composition>

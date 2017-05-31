@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<ui:composition template="/templates/LayoutPadrao2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+	
+    <ui:define name="conteudo">
+
+		<div class="aw-error-panel" align="center">
+			
+			<br/><br/>
+			
+			<h1 class="aw-error-panel__code">
+				<i class="fa  fa-location-arrow"></i> 403
+			</h1>
+			
+			<h2 class="aw-error-panel__title">Acesso negado <span class="navbar-text"></span></h2>
+			
+			<div class="aw-error-panel__description">
+				Desculpe, você não está autorizado a acessar a página que solicitou. 
+				Se você acha que isso é um engano, entre em contato com a gente.
+				<br/><br/>
+				
+				<br/>
+				<br/>
+				<h:form>
+					<a href="javascript:history.back()" class="btn  btn-primary" title="Voltar"><em class="fa  fa-arrow-left"></em> Voltar</a> 
+					<a href="./principal.xhtml" class="btn  btn-primary" title="Página inicial"><em class="fa  fa-home"></em> Início</a> 
+					<p:commandLink actionListener="#{auth.logout()}" class="btn  btn-primary" title="Sair do sistema">
+						<span class="fa  fa-sign-out"> Logout</span>
+					</p:commandLink>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>   
+</ui:composition>
+</html>
