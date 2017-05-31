@@ -1,8 +1,8 @@
 package br.com.prox.model;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Named;
 import javax.persistence.Entity;
@@ -42,7 +42,7 @@ public class Projeto {
 	private Contratante contratante;
 	
 	@OneToMany
-	private Consultor consultor;
+	private List<Consultor> consultor;
 	
 	
 }
