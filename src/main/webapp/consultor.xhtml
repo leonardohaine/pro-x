@@ -20,7 +20,7 @@
 			
 			<p:toolbar id="toolbar">
 				<f:facet name="left">
-					<p:commandButton value="Nova" icon="ui-icon-document"
+					<p:commandButton value="Novo" icon="ui-icon-document"
 						action="#{consultorBean.prepararNovoCadastro}"
 						process="@this" update="consultor-dialog"
 						oncomplete="PF('edicaoConsultorDialog').show()">
@@ -48,13 +48,13 @@
             			
             			<p:confirm icon="ui-icon-alert" header="Confirmação de exclusão"
             				message="Tem certeza que deseja excluir o consultor?" />
-            			
             		</p:commandButton>
             		
             		<p:commandButton icon="ui-icon-arrowthick-1-s" title="Exportar para XLS"
             				ajax="false" immediate="true">
             			<p:dataExporter type="xls" target="consultor-table" fileName="consultor" />
             		</p:commandButton>
+            		
 				</f:facet>
 				
 				
@@ -62,7 +62,7 @@
 			</p:toolbar>
 	
 			<p:dataTable value="#{consultorBean.todosConsultores}" var="consultor" widgetVar="tabela-consultor"
-					emptyMessage="Nenhuma título cadastrado." rows="10" reflow="true"
+					emptyMessage="Nenhum consultor cadastrado." rows="10" reflow="true"
 					paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5, 10, 15" 
 					style="margin-top: 10px;" id="consultor-table"
 					selection="#{consultorBean.consultorSelecionado}"

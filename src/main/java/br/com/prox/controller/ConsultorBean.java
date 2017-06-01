@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
@@ -33,9 +32,15 @@ public class ConsultorBean implements Serializable {
 	private Consultor consultorSelecionado;
 	private List<Consultor> todosConsultores;
 	
+	
+	public void prepararNovoCadastro() {
+		consultor = new Consultor();
+	}
+	
 	public void salvar() {
 		try {
 			service.salvar(consultor);
+			consultar();
 			RequestContext.getCurrentInstance().update(
 					Arrays.asList("frm:msgs", "frm:consultor-table"));
 		} catch (Exception e) {
@@ -45,9 +50,11 @@ public class ConsultorBean implements Serializable {
 	}
 
 	public void excluir(){
-		service.excluir(consultor);
-		RequestContext.getCurrentInstance().update(
-				Arrays.asList("frm:msgs", "frm:consultor-table"));
+		
+		service.excluir(consultorSelecionado);
+		consultorSelecionado = null;
+		
+		consultar();
 	}
 	
 	public void consultar(){

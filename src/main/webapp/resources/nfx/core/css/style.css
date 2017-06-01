@@ -9,6 +9,21 @@
 
 /* Ajustes */
 
+.ui-picklist .ui-picklist-list{
+	height:100px;
+	width: 200px;
+}
+
+.ui-picklist-source, .ui-picklist-target {
+	width: 100px;
+	height: 100px;
+}
+
+.ui-picklist .ui-picklist-buttons {
+    height: 200px;
+    padding: 0px 5px;
+}
+
 .columnCenter{
 	text-align: center;
 }
