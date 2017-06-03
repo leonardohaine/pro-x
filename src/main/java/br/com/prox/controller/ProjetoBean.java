@@ -19,11 +19,13 @@ import br.com.prox.model.Projeto;
 import br.com.prox.repository.ConsultorDAO;
 import br.com.prox.repository.ProjetoDAO;
 import br.com.prox.service.ProjetoService;
+import br.com.prox.util.FacesMessages;
 import lombok.Data;
 
 @Named
 @ViewScoped
 @Data
+//@ManagedBean
 @Transactional
 public class ProjetoBean implements Serializable {
 
@@ -37,6 +39,9 @@ public class ProjetoBean implements Serializable {
 	
 	@Autowired
 	private ConsultorDAO consultores;
+	
+	@Autowired
+	private FacesMessages facesMessages;
 	
 	private Projeto projeto = new Projeto();
 	private Projeto projetoSelecionado;
@@ -72,6 +77,7 @@ public class ProjetoBean implements Serializable {
 					Arrays.asList("frm:msgs", "frm:projeto-table"));
 		} catch (Exception e) {
 			e.printStackTrace();
+			facesMessages.info("Erro ao salvar projeto: \n" + e);
 		}
 
 	}
@@ -93,5 +99,17 @@ public class ProjetoBean implements Serializable {
 		listaConsultores = consultores.findAll();
 	}
 
+	public Projeto getProjeto(Long id) {
+        if (id == null){
+            throw new IllegalArgumentException("no id provided");
+        }
+        
+        for (Projeto proj : todosProjetos){
+            if (id.equals(proj.getId())){
+                return proj;
+            }
+        }
+        return null;
+    }
 	
 }

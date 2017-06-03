@@ -9,18 +9,19 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Data;
 
 
 @Entity
 @Data
+@Transactional
 public class Projeto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,8 +42,8 @@ public class Projeto implements Serializable {
 	//@Fetch(value = FetchMode.SUBSELECT)
 	//private List<Contratante> contratante;
 	
-	//@Fetch(value = FetchMode.SUBSELECT)
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@Fetch(value = FetchMode.SUBSELECT)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	private List<Consultor> consultor;
 	
 	

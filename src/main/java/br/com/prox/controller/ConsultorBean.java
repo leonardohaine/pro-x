@@ -11,6 +11,7 @@ import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.prox.model.Consultor;
+import br.com.prox.model.Projeto;
 import br.com.prox.repository.ConsultorDAO;
 import br.com.prox.service.ConsultorService;
 import lombok.Data;
@@ -61,5 +62,16 @@ public class ConsultorBean implements Serializable {
 		todosConsultores = consultores.findAll();
 	}
 	
-	
+	public Consultor getConsultor(Long id) {
+        if (id == null){
+            throw new IllegalArgumentException("no id provided");
+        }
+    	
+        for (Consultor con : todosConsultores){
+            if (id.equals(con.getId())){
+                return con;
+            }
+        }
+        return null;
+    }
 }

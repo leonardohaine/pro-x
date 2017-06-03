@@ -1,7 +1,5 @@
 package br.com.prox.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,15 +8,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Data;
 
 //@Named
 @Entity
 @Data
-public class Consultor implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Transactional
+public class Consultor {
 
 	@Id
 	@GeneratedValue

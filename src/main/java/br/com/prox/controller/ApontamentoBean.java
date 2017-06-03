@@ -1,6 +1,7 @@
 package br.com.prox.controller;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,6 +40,8 @@ public class ApontamentoBean implements Serializable {
 	
 	public void salvar() {
 		try {
+			//apontamento.setTempoGasto(new Time(apontamento.getTempoGasto()));
+			
 			service.salvar(apontamento);
 			consultar();
 			RequestContext.getCurrentInstance().update(

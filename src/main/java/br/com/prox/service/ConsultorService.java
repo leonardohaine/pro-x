@@ -7,28 +7,21 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.prox.model.Consultor;
 import br.com.prox.repository.ConsultorDAO;
 
-@Transactional
+
 @Service
 public class ConsultorService {
 	
 	@Autowired
 	private ConsultorDAO dao;
 	
+	@Transactional
 	public void salvar(Consultor consultor){
 		dao.save(consultor);
 	}
 
+	@Transactional
 	public void excluir(Consultor consultor) {
 		dao.delete(consultor);
-	}
-
-	public Consultor buscarId(Long id){
-		try{
-			return dao.findOne(id);
-		}catch (Exception e) {
-			System.out.println("Falha ao consultar consultor por id\n" + e);
-			return null;
-		}
 	}
 	
 }

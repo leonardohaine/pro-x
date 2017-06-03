@@ -8,17 +8,19 @@ import br.com.prox.model.Projeto;
 import br.com.prox.repository.ProjetoDAO;
 import lombok.Data;
 
-@Transactional
+
 @Service
 public class ProjetoService {
 
 	@Autowired
 	private ProjetoDAO dao;
 	
+	@Transactional
 	public void salvar(Projeto projeto){
 		dao.save(projeto);
 	}
 
+	@Transactional
 	public void excluir(Projeto projeto) {
 		dao.delete(projeto);
 	}
