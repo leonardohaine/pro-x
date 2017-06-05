@@ -17,7 +17,7 @@
 		
 		<h:form id="frm" >
 	
-			<p:messages id="msgs" />
+			<p:messages id="msgs"  showDetail="true" />
 			
 			<p:toolbar id="toolbar">
 				<f:facet name="left">
@@ -103,7 +103,7 @@
 					sortBy="#{projeto.consultor}" filterBy="#{projeto.consultor}"
 					filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
 					
-					<p:dataList  var="con" value="#{projeto.consultor}">
+					<p:dataList  var="con" value="#{projeto.consultor}" emptyMessage="Sem consultor">
 						<h:outputText value="#{con.nome}" />
 					</p:dataList >
 				</p:column>
@@ -140,24 +140,25 @@
 								value="#{projetoBean.projeto.descricao}" />
 							
 							<p:outputLabel value="Consultor" for="consultor" />
+						<ui:remove>
 							<p:selectCheckboxMenu id="consultor" value="#{projetoBean.projeto.consultor}"
 									converter="consultorConverter" 
 									label="Cities" multiple="true"
                             		filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-					            <f:selectItems value="#{projetoBean.listaConsultores}" var="con" 
+					            <f:selectItems value="#{projetoBean.todosProjetos.get(0).getConsultor()}" var="con" 
 				            		itemLabel="#{con.nome}" itemValue="#{con}" />
 					        </p:selectCheckboxMenu>
-							
-						<ui:remove>
-							<p:pickList id="consultor" value="#{projetoBean.consultorModel}" 
-								converter="consultorPickListConverter" style="max-height: 100px !important;"
+						</ui:remove>	
+						
+							<p:pickList id="consultor" value="#{projetoBean.consultorModel}" style="height:100px !important;"
+								converter="consultorPickListConverter" 
 								var="consultor" itemLabel="#{consultor.nome}" itemValue="#{consultor}" >
 								
 								<f:facet name="sourceCaption">Não selecionados</f:facet>  
 				        		<f:facet name="targetCaption">Selecionados</f:facet> 
 								
 							</p:pickList>	
-				        </ui:remove>							
+				        							
 							<p:outputLabel value="Ativo" for="ativo" />
 							<p:selectBooleanButton id="ativo" value="#{projetoBean.projeto.ativo}"
 								offLabel="Não" onLabel="Sim" style="width: 70px;"

@@ -4,16 +4,18 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.prox.model.Consultor;
-import br.com.prox.model.Projeto;
 import br.com.prox.repository.ConsultorDAO;
 import br.com.prox.service.ConsultorService;
+import br.com.prox.util.FacesMessages;
 import lombok.Data;
 
 @Named
@@ -29,6 +31,9 @@ public class ConsultorBean implements Serializable {
 	@Autowired
 	private ConsultorDAO consultores;
 	
+	@Autowired
+	private FacesMessages messages;
+	
 	private Consultor consultor = new Consultor();
 	private Consultor consultorSelecionado;
 	private List<Consultor> todosConsultores;
@@ -42,6 +47,9 @@ public class ConsultorBean implements Serializable {
 		try {
 			service.salvar(consultor);
 			consultar();
+			
+			messages.info("Consultor salvo com sucesso!");
+			
 			RequestContext.getCurrentInstance().update(
 					Arrays.asList("frm:msgs", "frm:consultor-table"));
 		} catch (Exception e) {
@@ -54,24 +62,13 @@ public class ConsultorBean implements Serializable {
 		
 		service.excluir(consultorSelecionado);
 		consultorSelecionado = null;
-		
 		consultar();
+		
+		messages.info("Consultor excluído com sucesso!");
 	}
 	
 	public void consultar(){
 		todosConsultores = consultores.findAll();
 	}
 	
-	public Consultor getConsultor(Long id) {
-        if (id == null){
-            throw new IllegalArgumentException("no id provided");
-        }
-    	
-        for (Consultor con : todosConsultores){
-            if (id.equals(con.getId())){
-                return con;
-            }
-        }
-        return null;
-    }
 }

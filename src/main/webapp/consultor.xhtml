@@ -16,7 +16,7 @@
 		
 		<h:form id="frm" >
 	
-			<p:messages id="msgs" />
+			<p:messages id="msgs" showDetail="true" showSummary="true" />
 			
 			<p:toolbar id="toolbar">
 				<f:facet name="left">
@@ -54,6 +54,8 @@
             				ajax="false" immediate="true">
             			<p:dataExporter type="xls" target="consultor-table" fileName="consultor" />
             		</p:commandButton>
+            		
+            		<p:commandButton value="Update" update="msgs" />
             		
 				</f:facet>
 				

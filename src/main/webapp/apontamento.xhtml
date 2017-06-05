@@ -17,7 +17,7 @@
 		
 		<h:form id="frm" >
 	
-			<p:messages id="msgs" />
+			<p:messages id="msgs" showDetail="true" />
 			
 			<p:toolbar id="toolbar">
 				<f:facet name="left">
@@ -59,6 +59,32 @@
 				</f:facet>
 				
 			</p:toolbar>
+			
+			<p:fieldset legend="Filtros" style="margin:5px" collapsed="true" toggleable="true">
+		        <h:panelGrid columns="6" cellpadding="5">
+		            <p:outputLabel value="Projeto: " />
+	            	<p:selectOneMenu id="filtroProjeto" value="#{apontamentoBean.filtro.projeto}" style="align-text: center; width: 180px;"
+	            		converter="projetoConverter">
+			            
+			            <f:selectItem itemLabel="Todos" itemValue="0" />
+			            <f:selectItems value="#{projetoBean.todosProjetos}" var="proj" 
+			            	itemLabel="#{proj.nome}" itemValue="#{proj}"/>
+			            	
+		            	<p:ajax listener="#{apontamentoBean.filtro}" update="frm:apontamento-table frm:msgs" partialSubmit="true" />
+			        </p:selectOneMenu>
+			        
+			        <p:outputLabel value="Atividade: " />
+	            	<p:selectOneMenu id="filtroAtividade" value="#{apontamentoBean.filtro.atividade}" 
+	            		style="align-text: center; width: 180px;">
+			            
+			            <f:selectItem itemLabel="Todas" itemValue="" />
+			            <f:selectItems value="#{apontamentoBean.todasAtividadesApontamento()}" var="atividade"
+									itemLabel="#{atividade.descricao}" itemValue="#{atividade}" />
+			            	
+		            	<p:ajax listener="#{apontamentoBean.filtro}" update="frm:apontamento-table frm:msgs" partialSubmit="true" />
+			        </p:selectOneMenu>
+		        </h:panelGrid>
+		    </p:fieldset>
 	
 			<p:dataTable value="#{apontamentoBean.todosApontamentos}" var="apontamento" widgetVar="tabela-apontamento"
 					emptyMessage="Nenhum apontamento cadastrado." rows="10" reflow="true"
@@ -68,53 +94,72 @@
 					
 					selectionMode="single" rowKey="#{apontamento.id}">
 				
-				<p:ajax event="rowSelect" update=":frm:toolbar" />
+				<p:ajax event="rowSelect" listener="#{apontamentoBean.onRowSelect}" update=":frm:toolbar frm:msgs" />
 				<p:ajax event="rowUnselect" update=":frm:toolbar" />
 				
 				<f:facet name="header">
-					<div align="right">
-			            <p:outputPanel id="panelFilter">
-			                <p:outputLabel value=" " />
-			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-apontamento').filter()" style="width:250px" placeholder="pesquisa de apontamentoes"/>
+					<div align="right" >
+			        	<p:outputPanel id="panelFilter">   
+			            	
+			            
+			                <p:outputLabel value="  " />
+			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-apontamento').filter()" 
+			                	style="width:180px" placeholder="pesquisa de apontamentos"/>
 			                <p:defaultCommand target="globalFilter" scope="panelFilter" />
-			            </p:outputPanel>
+			        	</p:outputPanel>       
 		            </div>
 		        </f:facet>
 				
 				<p:column headerText="#" width="50" styleClass="columnCenter"
 					 sortBy="#{apontamento.id}" filterBy="#{apontamento.id}"
 					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
-					<h:outputText value="#{apontamento.id}" />
+					<p:outputLabel value="#{apontamento.id}" />
 				</p:column>
 				
 				<p:column headerText="Título" sortBy="#{apontamento.titulo}" filterBy="#{apontamento.titulo}"
 					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
-					<h:outputText value="#{apontamento.titulo}" />
+					<p:outputLabel value="#{apontamento.titulo}" />
+				</p:column>
+				
+				<p:column headerText="Atividade" width="180" styleClass="columnCenter" 
+					sortBy="#{apontamento.atividade.descricao}" filterBy="#{apontamento.atividade.descricao}"
+					filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{apontamento.atividade.descricao}" />
 				</p:column>
 				
 				<p:column headerText="Projeto" width="180" styleClass="columnCenter" 
 					sortBy="#{apontamento.projeto}" filterBy="#{apontamento.projeto}"
 					filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
-					<h:outputText value="#{apontamento.projeto.nome}" />
+					<p:outputLabel value="#{apontamento.projeto.nome}" />
 				</p:column>
 				
 				<p:column headerText="Data" width="120" styleClass="columnCenter" sortBy="#{apontamento.data}"
 					filterBy="#{apontamento.data}"
 					filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
 					
-					<h:outputText value="#{apontamento.data}" >
+					<p:outputLabel value="#{apontamento.data}" >
 						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:outputText>
+					</p:outputLabel>
 				</p:column>
 				
 				<p:column headerText="Tempo gasto" width="120" styleClass="columnCenter">
-					<h:outputText value="#{apontamento.tempoGasto}" >
+					<p:outputLabel value="#{apontamento.tempoGasto}" >
 						<f:convertDateTime type="localTime" pattern="HH:mm"/>
-					</h:outputText>
+					</p:outputLabel>
 				</p:column>
 				
+				<p:summaryRow>
+		            <p:column colspan="3" style="text-align:right">
+		                <h:outputText value="Total:" />
+		            </p:column>
+		            <p:column>
+		                <h:outputText value="#{apontamentoBean.getSomaProjetos()}" />
+		            </p:column>
+		        </p:summaryRow>
+				
 				<f:facet name="footer">
-			        Total de registros:  #{apontamentoBean.todosApontamentos.size()}
+			        Total de registros:  #{apontamentoBean.todosApontamentos.size()} 
+			        - Total de horas: <p:outputLabel value="#{apontamentoBean.getSomaProjetos()}" />
 			    </f:facet>
 				
 			</p:dataTable>
@@ -132,7 +177,7 @@
 						<p:panelGrid columns="2" id="painel-dialog" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8">
 							
 							<p:outputLabel value="Título" for="titulo" />
-							<p:inputText id="titulo" size="40" maxlength="80" placeholder="Digite o título"
+							<p:inputText id="titulo" size="40" maxlength="80"
 								value="#{apontamentoBean.apontamento.titulo}" />
 							
 							<p:outputLabel value="Comentario" for="comentario" />
@@ -147,6 +192,13 @@
 								<f:selectItems value="#{projetoBean.todosProjetos}" var="proj"
 									itemLabel="#{proj.nome}" itemValue="#{proj}" />
 							</p:selectOneMenu>
+								
+							<p:outputLabel value="Atividade" for="atividade" />
+							<p:selectOneMenu id="atividade" value="#{apontamentoBean.apontamento.atividade}">
+								<f:selectItem itemLabel="Selecione a atividade" />
+								<f:selectItems value="#{apontamentoBean.todasAtividadesApontamento()}" var="atividade"
+									itemLabel="#{atividade.descricao}" itemValue="#{atividade}" />
+							</p:selectOneMenu>	
 								
 							<p:outputLabel value="Data" for="data" />
 							<p:calendar id="data" size="5" maxlength="20" dir="ltr" mask="99/99/9999"

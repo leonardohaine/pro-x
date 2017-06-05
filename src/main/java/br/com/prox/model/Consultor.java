@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Consultor {
 	@GeneratedValue
 	private Long id;
 	
+	@NotEmpty(message = "O nome do consultor é obrigatório")
 	private String nome;
 	
 	@Type(type= "org.hibernate.type.NumericBooleanType")

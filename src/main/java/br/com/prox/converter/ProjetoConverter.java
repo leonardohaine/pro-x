@@ -20,7 +20,12 @@ public class ProjetoConverter implements Converter {
                                 "#{projetoBean}", ProjetoBean.class);
 
         ProjetoBean projetoBean = (ProjetoBean)vex.getValue(ctx.getELContext());
-        return projetoBean.getProjeto(Long.valueOf(objId));
+        for(Projeto proj : projetoBean.getTodosProjetos()){
+        	if (!objId.equalsIgnoreCase("Selecione o projeto") && !objId.equalsIgnoreCase("Todos") && new Long(objId).equals(proj.getId())){
+                return proj;
+            }
+        }
+        return null; //projetoBean.getProjeto(Long.valueOf(objId));
     }
 
     @Override

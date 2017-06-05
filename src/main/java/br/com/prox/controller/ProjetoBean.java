@@ -41,13 +41,13 @@ public class ProjetoBean implements Serializable {
 	private ConsultorDAO consultores;
 	
 	@Autowired
-	private FacesMessages facesMessages;
+	private FacesMessages messages;
 	
 	private Projeto projeto = new Projeto();
 	private Projeto projetoSelecionado;
 	private List<Projeto> todosProjetos;
 	
-	private List<Consultor> listaConsultores;
+	private List<Consultor> listaConsultores = new ArrayList();
 	
 	private DualListModel<Consultor> consultorModel;
 	
@@ -55,7 +55,7 @@ public class ProjetoBean implements Serializable {
 	public DualListModel<Consultor> getConsultorModel(){
 		// if(this.roleModel==null){ 
 			 if(projeto.getConsultor() != null){
-				 this.consultorModel = new DualListModel<Consultor>(new ArrayList<>(listaConsultores), new ArrayList<Consultor>(projeto.getConsultor()));
+				 this.consultorModel = new DualListModel<Consultor>(new ArrayList<>(projeto.getConsultor()), new ArrayList<Consultor>(projeto.getConsultor()));
 			 }else{
 				 this.consultorModel = new DualListModel<Consultor>(new ArrayList<>(listaConsultores), new ArrayList<Consultor>());
 			 }
@@ -73,11 +73,13 @@ public class ProjetoBean implements Serializable {
 			
 			service.salvar(projeto);
 			consultar();
+			messages.info("Projeto salvo com sucesso!");
 			RequestContext.getCurrentInstance().update(
 					Arrays.asList("frm:msgs", "frm:projeto-table"));
 		} catch (Exception e) {
 			e.printStackTrace();
-			facesMessages.info("Erro ao salvar projeto: \n" + e);
+			messages.error("Erro ao tentar salvar projeto: \n" + e);
+			RequestContext.getCurrentInstance().update("frm:msgs");
 		}
 
 	}
@@ -86,8 +88,8 @@ public class ProjetoBean implements Serializable {
 		
 		service.excluir(projetoSelecionado);
 		projetoSelecionado = null;
-		
 		consultar();
+		messages.info("Projeto excluído com sucesso!");
 	}
 	
 	public void consultar(){
@@ -98,18 +100,5 @@ public class ProjetoBean implements Serializable {
 	public void consultarConsultores(){
 		listaConsultores = consultores.findAll();
 	}
-
-	public Projeto getProjeto(Long id) {
-        if (id == null){
-            throw new IllegalArgumentException("no id provided");
-        }
-        
-        for (Projeto proj : todosProjetos){
-            if (id.equals(proj.getId())){
-                return proj;
-            }
-        }
-        return null;
-    }
 	
 }

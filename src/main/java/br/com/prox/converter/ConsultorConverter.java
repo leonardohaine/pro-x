@@ -21,7 +21,13 @@ public class ConsultorConverter implements Converter {
                                 "#{consultorBean}", ConsultorBean.class);
 
         ConsultorBean consultorBean = (ConsultorBean)vex.getValue(ctx.getELContext());
-        return consultorBean.getConsultor(Long.valueOf(objId));
+        for(Consultor con : consultorBean.getTodosConsultores()){
+        	if (new Long(objId).equals(con.getId())){
+                return con;
+            }
+        }
+        
+        return null; // consultorBean.getConsultor(Long.valueOf(objId));
     }
 
     @Override

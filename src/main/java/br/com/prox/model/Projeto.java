@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Data;
@@ -30,6 +31,7 @@ public class Projeto implements Serializable {
 	@GeneratedValue
 	private Long id;
 	
+	@NotEmpty(message = "O nome do projeto é obrigatório")
 	private String nome;
 	
 	private String descricao;
