@@ -135,7 +135,7 @@
 					<p:outputLabel value="#{apontamento.titulo}" />
 				</p:column>
 				
-				<p:column headerText="Atividade" width="180" styleClass="columnCenter" 
+				<p:column headerText="Atividade" width="120" styleClass="columnCenter" 
 					sortBy="#{apontamento.atividade.descricao}" filterBy="#{apontamento.atividade.descricao}"
 					filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
 					<p:outputLabel value="#{apontamento.atividade.descricao}" />
@@ -147,7 +147,7 @@
 					<p:outputLabel value="#{apontamento.projeto.nome}" />
 				</p:column>
 				
-				<p:column headerText="Data" width="120" styleClass="columnCenter" sortBy="#{apontamento.data}"
+				<p:column headerText="Data" width="80" styleClass="columnCenter" sortBy="#{apontamento.data}"
 					filterBy="#{apontamento.data}"
 					filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
 					
@@ -156,7 +156,7 @@
 					</p:outputLabel>
 				</p:column>
 				
-				<p:column headerText="Tempo gasto" width="120" styleClass="columnCenter">
+				<p:column headerText="Tempo gasto" width="95" styleClass="columnCenter">
 					<p:outputLabel value="#{apontamento.tempoGasto}" >
 						<f:convertDateTime type="localTime" pattern="HH:mm"/>
 					</p:outputLabel>
