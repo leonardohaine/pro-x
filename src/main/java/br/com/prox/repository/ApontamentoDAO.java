@@ -1,5 +1,6 @@
 package br.com.prox.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +16,6 @@ public interface ApontamentoDAO extends JpaRepository<Apontamento, Long> {
 	public List<Apontamento> findByProjeto(Projeto id);
 	public List<Apontamento> findByAtividade(AtividadeApontamento atividade);
 	public List<Apontamento> findByProjetoAndAtividade(Projeto id, AtividadeApontamento atividade);
+	public List<Apontamento> findByDataBetween(Date dataInicial, Date dataFinal);
 
 }

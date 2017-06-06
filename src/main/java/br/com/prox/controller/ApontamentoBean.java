@@ -1,15 +1,16 @@
 package br.com.prox.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,30 +85,30 @@ public class ApontamentoBean implements Serializable {
 	}
 	
 	public void filtro(){
-		todosApontamentos = service.getApontamentoFiltro(filtro);	
+		try{
+			todosApontamentos = service.getApontamentoFiltro(filtro);
+		}catch (Exception e) {
+			e.printStackTrace();
+			messages.error("Erro ao selecionar filtro: " + e);
+			RequestContext.getCurrentInstance().update(
+					Arrays.asList("frm:msgs", "frm:apontamento-table"));
+		}	
 	}
 	
-	public LocalTime getSomaProjetos(){
+	public String getSomaProjetos(){
 		
-		LocalTime total = LocalTime.of(0, 0);
+		Duration du = Duration.ZERO;
 		
 		for(Apontamento ap : todosApontamentos){
-			total = total.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+			du = du.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
 		}
-		
-		return total;
+		System.out.println("Calculando...");
+		return DurationFormatUtils.formatDuration(du.toMillis(), "HH:mm");
 	}
 	
 	public void consultar(){
 		todosApontamentos = apontamentos.findAll();
-		
-		LocalTime total, soma = LocalTime.of(0, 0);
-		for(Apontamento apo : todosApontamentos){
-			total = apo.getTempoGasto().plusHours(apo.getTempoGasto().getHour())
-					.plusMinutes(apo.getTempoGasto().getMinute());
-			soma = soma.plusHours(total.getHour()).plusMinutes(total.getMinute());
-		}
-		System.out.println("Total de horas dos projetos: " + soma);
+		filtro = new FiltroApontamento();
 	}
 	
 	public void onRowSelect(SelectEvent event) {

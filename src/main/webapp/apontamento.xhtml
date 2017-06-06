@@ -19,6 +19,7 @@
 	
 			<p:messages id="msgs" showDetail="true" />
 			
+			
 			<p:toolbar id="toolbar">
 				<f:facet name="left">
 					<p:commandButton value="Novo" icon="ui-icon-document"
@@ -61,7 +62,7 @@
 			</p:toolbar>
 			
 			<p:fieldset legend="Filtros" style="margin:5px" collapsed="true" toggleable="true">
-		        <h:panelGrid columns="6" cellpadding="5">
+		        <h:panelGrid columns="8" cellpadding="5">
 		            <p:outputLabel value="Projeto: " />
 	            	<p:selectOneMenu id="filtroProjeto" value="#{apontamentoBean.filtro.projeto}" style="align-text: center; width: 180px;"
 	            		converter="projetoConverter">
@@ -83,6 +84,17 @@
 			            	
 		            	<p:ajax listener="#{apontamentoBean.filtro}" update="frm:apontamento-table frm:msgs" partialSubmit="true" />
 			        </p:selectOneMenu>
+			        
+			        <p:outputLabel for="dataInicial" value="Data:" />
+       				<p:calendar id="dataInicial" value="#{apontamentoBean.filtro.dataInicial}" 
+       					pattern="dd/MM/yyyy" mask="true" showOn="button" >
+       					<p:ajax event="dateSelect" partialSubmit="true" />
+    				</p:calendar>
+       				a
+			        <p:calendar id="dataFinal" value="#{apontamentoBean.filtro.dataFinal}" 
+			        	pattern="dd/MM/yyyy" mask="true" showOn="button" >
+			        	<p:ajax event="dateSelect" listener="#{apontamentoBean.filtro}" update="frm:apontamento-table frm:msgs" partialSubmit="true" />
+			        </p:calendar>
 		        </h:panelGrid>
 		    </p:fieldset>
 	
@@ -97,13 +109,15 @@
 				<p:ajax event="rowSelect" listener="#{apontamentoBean.onRowSelect}" update=":frm:toolbar frm:msgs" />
 				<p:ajax event="rowUnselect" update=":frm:toolbar" />
 				
+				
+				
 				<f:facet name="header">
 					<div align="right" >
 			        	<p:outputPanel id="panelFilter">   
 			            	
 			            
 			                <p:outputLabel value="  " />
-			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-apontamento').filter()" 
+			                 <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-apontamento').filter()" 
 			                	style="width:180px" placeholder="pesquisa de apontamentos"/>
 			                <p:defaultCommand target="globalFilter" scope="panelFilter" />
 			        	</p:outputPanel>       
@@ -159,7 +173,9 @@
 				
 				<f:facet name="footer">
 			        Total de registros:  #{apontamentoBean.todosApontamentos.size()} 
-			        - Total de horas: <p:outputLabel value="#{apontamentoBean.getSomaProjetos()}" />
+			        - Total de horas: <p:outputLabel id="soma" value="#{apontamentoBean.getSomaProjetos()}" >
+			        					<f:convertDateTime type="localTime" pattern="HH:mm"/>
+									  </p:outputLabel>
 			    </f:facet>
 				
 			</p:dataTable>
