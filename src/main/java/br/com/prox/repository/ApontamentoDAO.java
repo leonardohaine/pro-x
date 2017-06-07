@@ -16,7 +16,7 @@ public interface ApontamentoDAO extends JpaRepository<Apontamento, Long> {
 	//Busca por Projeto
 	public List<Apontamento> findByProjeto(Projeto id);
 	
-	//Busca por projeto e intervalo de datas
+	//Busca por projeto ou intervalo de datas
 	public List<Apontamento> findByProjetoOrDataBetween(Projeto id, Date dataInicial, Date dataFinal);
 	
 	//Busca por atividade

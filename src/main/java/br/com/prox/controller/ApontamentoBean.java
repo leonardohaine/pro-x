@@ -2,8 +2,6 @@ package br.com.prox.controller;
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.prox.filtro.FiltroApontamento;
 import br.com.prox.model.Apontamento;
 import br.com.prox.model.AtividadeApontamento;
+import br.com.prox.model.StatusApontamento;
 import br.com.prox.repository.ApontamentoDAO;
 import br.com.prox.service.ApontamentoService;
 import br.com.prox.util.FacesMessages;
@@ -80,8 +79,23 @@ public class ApontamentoBean implements Serializable {
 		messages.info("Apontamento excluído com sucesso!");
 	}
 	
+	public List<StatusApontamento> todosStatusApontamento() {
+		return Arrays.asList(StatusApontamento.values());
+	}
+	
 	public List<AtividadeApontamento> todasAtividadesApontamento() {
 		return Arrays.asList(AtividadeApontamento.values());
+	}
+	
+	public void aprovar() {
+		
+		apontamento.setStatus(StatusApontamento.APROVADO);
+		service.salvar(apontamento);
+		consultar();
+		
+		messages.info("Apontamento aprovado com sucesso!");
+		RequestContext.getCurrentInstance().update(
+				Arrays.asList("frm:msgs", "frm:apontamento-table"));
 	}
 	
 	public void filtro(){

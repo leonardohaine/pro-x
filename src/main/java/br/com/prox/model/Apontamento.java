@@ -56,6 +56,10 @@ public class Apontamento implements Serializable {
 	
 	private String comentario;
 	
+	@NotNull(message = "Status é obrigatório")
+	@Enumerated(EnumType.STRING)
+	private StatusApontamento status;
+	
 	@NotNull(message = "Projeto é obrigatório")
 	@OneToOne
 	private Projeto projeto;

@@ -63,6 +63,19 @@
 			
 			<p:fieldset legend="Filtros" style="margin:5px" collapsed="true" toggleable="true">
 		        <h:panelGrid columns="8" cellpadding="5">
+		            
+		            <p:outputLabel value="Data inicial:" for="dataInicial" />
+       				<p:calendar id="dataInicial" value="#{apontamentoBean.filtro.dataInicial}" required="true"
+       					pattern="dd/MM/yyyy" mask="true" showOn="button" >
+       					<p:ajax event="dateSelect" partialSubmit="true" />
+    				</p:calendar>
+       				
+       				<p:outputLabel value="Data final:" for="dataFinal" />
+			        <p:calendar id="dataFinal" value="#{apontamentoBean.filtro.dataFinal}" required="true"
+			        	pattern="dd/MM/yyyy" mask="true" showOn="button" >
+			        	<p:ajax event="dateSelect" listener="#{apontamentoBean.filtro}" update="frm:apontamento-table frm:msgs" partialSubmit="true" />
+			        </p:calendar>
+		            
 		            <p:outputLabel value="Projeto: " />
 	            	<p:selectOneMenu id="filtroProjeto" value="#{apontamentoBean.filtro.projeto}" style="align-text: center; width: 180px;"
 	            		converter="projetoConverter">
@@ -85,16 +98,6 @@
 		            	<p:ajax listener="#{apontamentoBean.filtro}" update="frm:apontamento-table frm:msgs" partialSubmit="true" />
 			        </p:selectOneMenu>
 			        
-			        <p:outputLabel for="dataInicial" value="Data:" />
-       				<p:calendar id="dataInicial" value="#{apontamentoBean.filtro.dataInicial}" 
-       					pattern="dd/MM/yyyy" mask="true" showOn="button" >
-       					<p:ajax event="dateSelect" partialSubmit="true" />
-    				</p:calendar>
-       				a
-			        <p:calendar id="dataFinal" value="#{apontamentoBean.filtro.dataFinal}" 
-			        	pattern="dd/MM/yyyy" mask="true" showOn="button" >
-			        	<p:ajax event="dateSelect" listener="#{apontamentoBean.filtro}" update="frm:apontamento-table frm:msgs" partialSubmit="true" />
-			        </p:calendar>
 		        </h:panelGrid>
 		    </p:fieldset>
 	
@@ -156,20 +159,22 @@
 					</p:outputLabel>
 				</p:column>
 				
-				<p:column headerText="Tempo gasto" width="95" styleClass="columnCenter">
-					<p:outputLabel value="#{apontamento.tempoGasto}" >
-						<f:convertDateTime type="localTime" pattern="HH:mm"/>
-					</p:outputLabel>
+				<p:column headerText="Status" width="85" styleClass="columnCenter">
+					<p:outputLabel value="#{apontamento.status.descricao}" 
+					class="#{apontamento.status != 'PENDENTE' ? 'label-datatable' : ''}" />
 				</p:column>
 				
-				<p:summaryRow>
-		            <p:column colspan="3" style="text-align:right">
-		                <h:outputText value="Total:" />
-		            </p:column>
-		            <p:column>
-		                <h:outputText value="#{apontamentoBean.getSomaProjetos()}" />
-		            </p:column>
-		        </p:summaryRow>
+				<p:column headerText="Aprovar" width="65" styleClass="columnCenter" exportable="false">
+					<p:commandLink action="#{apontamentoBean.aprovar}" 
+						rendered="#{apontamento.status == 'PENDENTE'}"
+						styleClass="fa fa-check-square-o" 
+						process="@this" 
+						title="Receber título"
+						update="apontamento-table frm:msgs frm:toolbar">
+						
+						<f:setPropertyActionListener value="#{apontamento}" target="#{apontamentoBean.apontamento}" />
+					</p:commandLink>
+				</p:column>
 				
 				<f:facet name="footer">
 			        Total de registros:  #{apontamentoBean.todosApontamentos.size()} 

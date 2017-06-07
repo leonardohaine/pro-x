@@ -28,20 +28,35 @@ public class ApontamentoService implements Serializable {
 	public List<Apontamento> getApontamentoFiltro(FiltroApontamento filtro){
 		
 		if(filtro.getProjeto() != null && filtro.getAtividade() !=  null){
+			
 			System.out.println("Pesquisando projeto e atividade...");
 			return dao.findByProjetoAndAtividade(filtro.getProjeto(), filtro.getAtividade());
+			
 		}else if(filtro.getProjeto() == null && filtro.getAtividade() != null && filtro.getDataInicial() != null && filtro.getDataFinal() != null){
+			
 			System.out.println("Pesquisando atividade e datas...");
 			return dao.findByAtividadeAndDataBetween(filtro.getAtividade(), filtro.getDataInicial(), filtro.getDataFinal());	
+			
 		}else if(filtro.getProjeto() == null && filtro.getAtividade() != null){
+			
 			System.out.println("Pesquisando atividade...");
 			return dao.findByAtividade(filtro.getAtividade());
+			
 		}else if(filtro.getProjeto() != null || filtro.getDataInicial() != null && filtro.getDataFinal() != null && filtro.getAtividade() == null){
-			System.out.println("Pesquisando projeto...");
+			
+			System.out.println("Pesquisando por projeto ou data...");
 			return dao.findByProjetoOrDataBetween(filtro.getProjeto(), filtro.getDataInicial(), filtro.getDataFinal());
+			
 		}else if(filtro.getDataInicial() != null && filtro.getDataFinal() != null){
+			
 			System.out.println("Pesquisando por data...");
 			return dao.findByDataBetween(filtro.getDataInicial(), filtro.getDataFinal());
+			
+		}else if(filtro.getDataInicial() != null && filtro.getDataFinal() != null){
+			
+			System.out.println("Pesquisando por datas...");
+			return dao.findByDataBetween(filtro.getDataInicial(), filtro.getDataFinal());
+			
 		}else{
 			return dao.findAll();
 		}
