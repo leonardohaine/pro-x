@@ -85,11 +85,16 @@ public class ProjetoBean implements Serializable {
 	}
 
 	public void excluir(){
-		
-		service.excluir(projetoSelecionado);
-		projetoSelecionado = null;
-		consultar();
-		messages.info("Projeto excluído com sucesso!");
+		try{
+			service.excluir(projetoSelecionado);
+			projetoSelecionado = null;
+			consultar();
+			messages.info("Projeto excluído com sucesso!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			messages.error("Erro ao tentar excluir projeto: \n" + e);
+			RequestContext.getCurrentInstance().update("frm:msgs");
+		}
 	}
 	
 	public void consultar(){
@@ -98,7 +103,13 @@ public class ProjetoBean implements Serializable {
 	
 	@PostConstruct
 	public void consultarConsultores(){
-		listaConsultores = consultores.findAll();
+		try{
+			listaConsultores = consultores.findAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			messages.error("Erro ao tentar consultar consultores: \n" + e);
+			RequestContext.getCurrentInstance().update("frm:msgs");
+		}	
 	}
 	
 }

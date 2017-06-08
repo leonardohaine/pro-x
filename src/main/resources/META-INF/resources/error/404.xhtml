@@ -27,9 +27,11 @@
 			<h:form>
 				<a href="javascript:history.back()" class="btn  btn-primary" title="Voltar"><em class="fa  fa-arrow-left"></em> Voltar</a> 
 				<a href="./principal.xhtml" class="btn  btn-primary" title="Página inicial"><em class="fa  fa-home"></em> Início</a> 
+				<ui:remove>
 				<p:commandLink actionListener="#{auth.logout()}" class="btn  btn-primary" title="Sair do sistema">
 					<span class="fa  fa-sign-out"> Logout</span>
 				</p:commandLink>
+				</ui:remove>
 			</h:form>
 		</div>
 	</div>	

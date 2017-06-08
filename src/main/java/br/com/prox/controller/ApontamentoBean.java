@@ -56,7 +56,7 @@ public class ApontamentoBean implements Serializable {
 			service.salvar(apontamento);
 			consultar();
 			
-			messages.info("Apontamento salvo com sucesso!");
+			messages.info("Apontamento realizdo com sucesso!");
 			
 			RequestContext.getCurrentInstance().update(
 					Arrays.asList("frm:msgs", "frm:apontamento-table"));
@@ -70,13 +70,18 @@ public class ApontamentoBean implements Serializable {
 	}
 
 	public void excluir(){
-		
-		service.excluir(apontamentoSelecionado);
-		apontamentoSelecionado = null;
-		
-		consultar();
-		
-		messages.info("Apontamento excluído com sucesso!");
+		try{
+			service.excluir(apontamentoSelecionado);
+			apontamentoSelecionado = null;
+			
+			consultar();
+			
+			messages.info("Apontamento excluído com sucesso!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			messages.error("Erro ao tentar excluir apontamento: \n" + e);
+			RequestContext.getCurrentInstance().update("frm:msgs");
+		}	
 	}
 	
 	public List<StatusApontamento> todosStatusApontamento() {
@@ -121,8 +126,14 @@ public class ApontamentoBean implements Serializable {
 	}
 	
 	public void consultar(){
-		todosApontamentos = apontamentos.findAll();
-		filtro = new FiltroApontamento();
+		try{
+			todosApontamentos = apontamentos.findAll();
+			filtro = new FiltroApontamento();
+		} catch (Exception e) {
+			e.printStackTrace();
+			messages.error("Erro ao tentar consultar apontamento: \n" + e);
+			RequestContext.getCurrentInstance().update("frm:msgs");
+		}	
 	}
 	
 	public void onRowSelect(SelectEvent event) {

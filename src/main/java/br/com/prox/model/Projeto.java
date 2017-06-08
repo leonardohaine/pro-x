@@ -1,6 +1,8 @@
 package br.com.prox.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -35,6 +37,10 @@ public class Projeto implements Serializable {
 	private String nome;
 	
 	private String descricao;
+	
+	private Duration estimativa;
+	
+	private BigDecimal taxa;
 	
 	@Type(type= "org.hibernate.type.NumericBooleanType")
     @Column(name = "ativo")
