@@ -220,6 +220,12 @@
 								<f:selectItems value="#{apontamentoBean.todasAtividadesApontamento()}" var="atividade"
 									itemLabel="#{atividade.descricao}" itemValue="#{atividade}" />
 							</p:selectOneMenu>	
+							
+							<p:outputLabel value="Status" for="status" />
+							<p:selectOneMenu id="status" value="#{apontamentoBean.apontamento.status}">
+								<f:selectItems value="#{apontamentoBean.todosStatusApontamento()}" var="status"
+									itemLabel="#{status.descricao}" itemValue="#{status}" />
+							</p:selectOneMenu>	
 								
 							<p:outputLabel value="Data" for="data" />
 							<p:calendar id="data" size="5" maxlength="20" dir="ltr" mask="99/99/9999"
