@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,25 +107,35 @@ public class ProjetoBean implements Serializable {
 		todosProjetos = projetos.findAll();
 	}
 	
-	public int progresso(Long id, Double estimativa){
-		
-		Duration duration = Duration.ZERO;
-		Double progresso = 0d;
-		
-		Projeto proj = new Projeto();
-		proj.setId(id);
-		List<Apontamento> apont = apontamentos.totalHoras(proj);
-		for(Apontamento ap: apont){
-			duration = duration.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+	public int progresso(Projeto proj){
+		try{
+//			
+			Duration duration = Duration.ZERO;
+			Double progresso = 0d;
+			
+			
+			List<Apontamento> apont = apontamentos.totalHoras(proj);
+			for(Apontamento ap: apont){
+				duration = duration.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+			}
+			
+			if(duration.toMinutes() >= 30){
+				duration = duration.plusHours(1);
+			}
+			
+			progresso = duration.toHours() / proj.getEstimativa() * 100;
+			System.out.println("Progresso..." + progresso);
+			return progresso.intValue();
+		}catch (Exception e) {
+			try {
+				messages.error("Erro ao calcular progresso do projeto: \n" + e);
+				throw new Exception("Erro ao calcular progresso do projeto");
+			} catch (Exception e1) {
+				messages.error("Erro ao calcular progresso do projeto: \n" + e1);
+				e1.printStackTrace();
+				return 0;
+			}
 		}
-		
-		if(duration.toMinutes() >= 30){
-			duration = duration.plusHours(1);
-		}
-		
-		progresso = duration.toHours() / estimativa * 100;
-		System.out.println("Progresso..." + progresso);
-		return progresso.intValue();
 	}
 	
 	@PostConstruct

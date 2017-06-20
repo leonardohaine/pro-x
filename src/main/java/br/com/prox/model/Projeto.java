@@ -40,6 +40,7 @@ public class Projeto implements Serializable {
 	
 	private String descricao;
 	
+	@NotEmpty(message = "A estimativa é obrigatório")
 	private Double estimativa;
 	
 	private BigDecimal taxa;
