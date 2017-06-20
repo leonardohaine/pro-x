@@ -70,12 +70,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	          .antMatchers("/contratante.jsf").hasAuthority("CONTRATANTE")
 				.and()
 			.formLogin()
-			.loginPage("/login.jsf")
+			.loginPage("/login.xhtml")
 			.loginProcessingUrl("/login")
-			.defaultSuccessUrl("/principal.jsf")
+			.defaultSuccessUrl("/principal.xhtml")
 			.and()
 			.logout().logoutUrl("/logout")
-			.logoutSuccessUrl("/login.jsf")
+			.logoutSuccessUrl("/login.xhtml")
 			.invalidateHttpSession(true)
 			
 			/*		.loginPage("/index.jsf")
@@ -85,14 +85,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				 .and()
-			     .exceptionHandling().accessDeniedPage("/error/403.jsf")*/
+			     .exceptionHandling().accessDeniedPage("/error/403.jsf")
 				.and()
 				.rememberMe()
-				//.tokenRepository(persistentTokenRepository())
+				.tokenRepository(persistentTokenRepository())
 				.key("rem-me-key")
 				.rememberMeParameter("remember-me")
 				.rememberMeCookieName("my-remember-me")
-				.tokenValiditySeconds(86400)
+				.tokenValiditySeconds(86400)*/
 				; 
 	}
 	
@@ -100,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //	@Bean
 //	public PersistentTokenRepository persistentTokenRepository() {
 //		JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-//		tokenRepository.setDataSource(datasource);
+//		//tokenRepository.setDataSource(datasource);
 //		return tokenRepository;
 //	}
 }
