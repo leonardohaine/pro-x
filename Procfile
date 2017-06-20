@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar node --optimize_for_size --max_old_space_size=920 --gc_interval=100 server.js
