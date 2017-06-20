@@ -17,8 +17,14 @@ public class PrincipalBean {
 	
 	@PostConstruct
 	public void usuarioLogado(){
-		usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getName().toUpperCase();
-		System.out.println(usuarioLogado);
+		try{
+			usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getName().toUpperCase();
+			System.out.println(usuarioLogado);
+		}catch (Exception e) {
+			usuarioLogado = "Anônimo";
+			System.out.println("Usuário anônimo.");
+			//throw new RuntimeException("Usuário anônimo!");
+		}
 	}
 
 }

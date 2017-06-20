@@ -70,10 +70,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	          .antMatchers("/contratante.jsf").hasAuthority("CONTRATANTE")
 				.and()
 			.formLogin()
+			.loginPage("/login.jsf")
 			.loginProcessingUrl("/login")
+			.defaultSuccessUrl("/principal.jsf")
 			.and()
 			.logout().logoutUrl("/logout")
-			.logoutSuccessUrl("/login")
+			.logoutSuccessUrl("/login.jsf")
 			.invalidateHttpSession(true)
 			
 			/*		.loginPage("/index.jsf")
@@ -83,14 +85,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				 .and()
-			     .exceptionHandling().accessDeniedPage("/error/403.jsf")
+			     .exceptionHandling().accessDeniedPage("/error/403.jsf")*/
 				.and()
 				.rememberMe()
 				//.tokenRepository(persistentTokenRepository())
 				.key("rem-me-key")
 				.rememberMeParameter("remember-me")
 				.rememberMeCookieName("my-remember-me")
-				.tokenValiditySeconds(86400)*/
+				.tokenValiditySeconds(86400)
 				; 
 	}
 	
