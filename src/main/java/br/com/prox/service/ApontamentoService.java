@@ -25,7 +25,7 @@ public class ApontamentoService implements Serializable {
 		dao.delete(apontamento);
 	}
 
-	public List<Apontamento> getApontamentoFiltro(FiltroApontamento filtro){
+	public List<Apontamento> filtroApontamento(FiltroApontamento filtro){
 		
 		if(filtro.getProjeto() != null && filtro.getAtividade() !=  null){
 			
@@ -44,8 +44,8 @@ public class ApontamentoService implements Serializable {
 			
 		}else if(filtro.getProjeto() != null || filtro.getDataInicial() != null && filtro.getDataFinal() != null && filtro.getAtividade() == null){
 			
-			System.out.println("Pesquisando por projeto ou data...");
-			return dao.findByProjetoOrDataBetween(filtro.getProjeto(), filtro.getDataInicial(), filtro.getDataFinal());
+			System.out.println("Pesquisando por projeto e data...");
+			return dao.findByProjetoAndDataBetween(filtro.getProjeto(), filtro.getDataInicial(), filtro.getDataFinal());
 			
 		}else if(filtro.getDataInicial() != null && filtro.getDataFinal() != null){
 			

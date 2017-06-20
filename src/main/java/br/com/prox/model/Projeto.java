@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import lombok.Data;
 @Entity
 @Data
 @Transactional
+@Audited
 public class Projeto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -38,9 +40,11 @@ public class Projeto implements Serializable {
 	
 	private String descricao;
 	
-	private Duration estimativa;
+	private Double estimativa;
 	
 	private BigDecimal taxa;
+	
+	private String wiki;
 	
 	@Type(type= "org.hibernate.type.NumericBooleanType")
     @Column(name = "ativo")

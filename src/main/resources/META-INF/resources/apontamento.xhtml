@@ -67,7 +67,7 @@
 		            <p:outputLabel value="Data inicial:" for="dataInicial" />
        				<p:calendar id="dataInicial" value="#{apontamentoBean.filtro.dataInicial}" required="true"
        					pattern="dd/MM/yyyy" mask="true" showOn="button" >
-       					<p:ajax event="dateSelect" partialSubmit="true" />
+       					<p:ajax event="dateSelect" listener="#{apontamentoBean.filtro}" update="frm:apontamento-table frm:msgs" partialSubmit="true" />
     				</p:calendar>
        				
        				<p:outputLabel value="Data final:" for="dataFinal" />
@@ -159,6 +159,10 @@
 					</p:outputLabel>
 				</p:column>
 				
+				<p:column headerText="Tempo gasto" width="80" styleClass="columnCenter">
+					<p:outputLabel value="#{apontamento.tempoGasto}" />
+				</p:column>
+				
 				<p:column headerText="Status" width="85" styleClass="columnCenter">
 					<p:outputLabel value="#{apontamento.status.descricao}" 
 					class="#{apontamento.status != 'PENDENTE' ? 'label-datatable' : ''}" />
@@ -177,10 +181,9 @@
 				</p:column>
 				
 				<f:facet name="footer">
-			        Total de registros:  #{apontamentoBean.todosApontamentos.size()} 
-			        - Total de horas: <p:outputLabel id="soma" value="#{apontamentoBean.getSomaProjetos()}" >
-			        					<f:convertDateTime type="localTime" pattern="HH:mm"/>
-									  </p:outputLabel>
+			       
+ 					Total de registros:  #{apontamentoBean.todosApontamentos.size()} 
+			        - Total de horas: <p:outputLabel id="soma" value="#{apontamentoBean.getSomaProjetos()}" />
 			    </f:facet>
 				
 			</p:dataTable>

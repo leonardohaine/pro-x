@@ -2,6 +2,7 @@ package br.com.prox.controller;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import br.com.prox.filtro.FiltroApontamento;
 import br.com.prox.model.Apontamento;
@@ -105,8 +107,13 @@ public class ApontamentoBean implements Serializable {
 	
 	public void filtro(){
 		try{
-			todosApontamentos = service.getApontamentoFiltro(filtro);
-		}catch (Exception e) {
+			todosApontamentos = service.filtroApontamento(filtro);
+		}catch (InvalidDataAccessApiUsageException e) {
+			if(filtro.getDataInicial() == null || filtro.getDataFinal() == null){
+				messages.error("Preencha a data inicial e data final");
+				return;
+			}
+			
 			e.printStackTrace();
 			messages.error("Erro ao selecionar filtro: " + e);
 			RequestContext.getCurrentInstance().update(
@@ -123,7 +130,7 @@ public class ApontamentoBean implements Serializable {
 		}
 		System.out.println("Calculando...");
 		return DurationFormatUtils.formatDuration(du.toMillis(), "HH:mm");
-	}
+	} 
 	
 	public void consultar(){
 		try{
@@ -137,6 +144,13 @@ public class ApontamentoBean implements Serializable {
 	}
 	
 	public void onRowSelect(SelectEvent event) {
+		
+		if(apontamentoSelecionado != null){
+			System.out.println("Get total horas...");
+			List<Apontamento> t = apontamentos.totalHoras(apontamentoSelecionado.getProjeto());
+			System.out.println("Get total horas..." + t);
+		}
+		
 //        FacesMessage msg = new FacesMessage("Apontamento com projeto: ", ((Apontamento) event.getObject()).getId().toString());
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
 //        

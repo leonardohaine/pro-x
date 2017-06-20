@@ -4,7 +4,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags">
 
 <h:head>
 	<meta charset="utf-8" />
@@ -14,7 +15,7 @@
     <meta name="author" content="Łukasz Holeczek" />
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,Angular 2,Angular4,Angular 4,jQuery,CSS,HTML,RWD,Dashboard,React,React.js,Vue,Vue.js" />
 <!--     <h:outputStylesheet library="nfx" rel="shortcut icon" name="core/img/favicon.png" /> -->
-		<link rel="shortcut icon" type="image/x-icon" href="#{resource['nfx:core/img/logo_nfx.png']}"/>
+<!-- 		<link rel="shortcut icon" type="image/x-icon" href="#{resource['nfx:core/img/logo_nfx.png']}"/> -->
 		
     <title>NFX - NF-e</title>
 
@@ -40,7 +41,10 @@
 
     <header class="app-header navbar">
         <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">☰</button>
-        <a class="navbar-brand" href="#"></a>
+        <!-- O logotipo está setado no arquivo nfx:core/css/style.css -->
+        <a class="navbar-brand" href="#" style="text-shadow: 0.2em 0.5em 0.1em #600,
+														      -0.3em 0.1em 0.1em #555,
+														      0.4em -0.3em 0.1em #006; color: blue; ">       PRO-X</a> 
         <ul class="nav navbar-nav d-md-down-none">
             <li class="nav-item">
                 <a class="nav-link navbar-toggler sidebar-toggler" href="#">☰</a>
@@ -98,9 +102,9 @@
 				<li>
 				<h:form>
 					<p:menubar style="width: 110px;">
-						<p:submenu label="Leonardo" icon="ui-icon-person" >
+						<p:submenu label="#{principalBean.usuarioLogado}" icon="ui-icon-person" >
 							<p:menuitem value="Alterar senha" url="#" icon="ui-icon ui-icon-key" />
-							<p:menuitem value="Sair" url="./index.jsf" icon="ui-icon ui-icon-power" />
+							<p:menuitem value="Sair" url="/logout" icon="ui-icon ui-icon-power" />
 						</p:submenu>
 					</p:menubar>
 				</h:form>

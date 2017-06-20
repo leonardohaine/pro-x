@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.support.DomainClassConverter;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -72,10 +73,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	
 	
-//	@Bean
-//	public BCryptPasswordEncoder passwordEncoder() {
-//		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//		return bCryptPasswordEncoder;
-//	}
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		return bCryptPasswordEncoder;
+	}
 	
 }

@@ -109,7 +109,7 @@
 				</p:column>
 				
 				<p:column headerText="Progresso" width="150">
-					<p:progressBar value="75" labelTemplate="{value}%" displayOnly="true"/>
+					<p:progressBar value="#{projetoBean.progresso(projeto.id, projeto.estimativa)}" labelTemplate="{value}%" displayOnly="true"/>
 				</p:column>
 				
 				<p:column headerText="Ativo" width="50" styleClass="columnCenter" >
@@ -144,9 +144,9 @@
 								value="#{projetoBean.projeto.descricao}" />
 								
 							<p:outputLabel value="Estimativa" for="estimativa" />
-							<p:inputMask id="estimativa" value="#{projetoBean.projeto.estimativa}" mask="99:99">
-								<f:convertDateTime type="Duration" pattern="H:mm"/>
-							</p:inputMask>	
+							<p:inputText id="estimativa" value="#{projetoBean.projeto.estimativa}" >
+								
+							</p:inputText>	
 								
 							<p:outputLabel value="Valor" for="valor" />
 							<p:inputNumber  id="valor" size="20" maxlength="120" style="width: 200px !important"

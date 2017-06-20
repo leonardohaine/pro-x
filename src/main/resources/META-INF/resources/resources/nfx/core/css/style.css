@@ -7771,7 +7771,7 @@ header.navbar {
     padding: 0.5rem 1rem;
     margin-right: 0;
     background-color: #fff;
-    background-image: url("#{resource['nfx:core/img/logo_nfx.png']}");
+    /*background-image: url("#{resource['nfx:core/img/logo_nfx.png']}");*/
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 70px auto;

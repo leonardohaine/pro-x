@@ -1,6 +1,7 @@
 package br.com.prox.controller;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,13 +10,16 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.prox.model.Apontamento;
 import br.com.prox.model.Consultor;
 import br.com.prox.model.Projeto;
+import br.com.prox.repository.ApontamentoDAO;
 import br.com.prox.repository.ConsultorDAO;
 import br.com.prox.repository.ProjetoDAO;
 import br.com.prox.service.ProjetoService;
@@ -38,6 +42,9 @@ public class ProjetoBean implements Serializable {
 	private ProjetoDAO projetos;
 	
 	@Autowired
+	private ApontamentoDAO apontamentos;
+	
+	@Autowired
 	private ConsultorDAO consultores;
 	
 	@Autowired
@@ -55,7 +62,7 @@ public class ProjetoBean implements Serializable {
 	public DualListModel<Consultor> getConsultorModel(){
 		// if(this.roleModel==null){ 
 			 if(projeto.getConsultor() != null){
-				 this.consultorModel = new DualListModel<Consultor>(new ArrayList<>(projeto.getConsultor()), new ArrayList<Consultor>(projeto.getConsultor()));
+				 this.consultorModel = new DualListModel<Consultor>(new ArrayList<>(listaConsultores), new ArrayList<Consultor>(projeto.getConsultor()));
 			 }else{
 				 this.consultorModel = new DualListModel<Consultor>(new ArrayList<>(listaConsultores), new ArrayList<Consultor>());
 			 }
@@ -99,6 +106,27 @@ public class ProjetoBean implements Serializable {
 	
 	public void consultar(){
 		todosProjetos = projetos.findAll();
+	}
+	
+	public int progresso(Long id, Double estimativa){
+		
+		Duration duration = Duration.ZERO;
+		Double progresso = 0d;
+		
+		Projeto proj = new Projeto();
+		proj.setId(id);
+		List<Apontamento> apont = apontamentos.totalHoras(proj);
+		for(Apontamento ap: apont){
+			duration = duration.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+		}
+		
+		if(duration.toMinutes() >= 30){
+			duration = duration.plusHours(1);
+		}
+		
+		progresso = duration.toHours() / estimativa * 100;
+		System.out.println("Progresso..." + progresso);
+		return progresso.intValue();
 	}
 	
 	@PostConstruct

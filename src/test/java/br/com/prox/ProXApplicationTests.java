@@ -31,7 +31,12 @@ public class ProXApplicationTests {
 	LocalTime setTime = LocalTime.of(23, 25, 45, 20);
 	System.out.println(setTime);
 	
-	Double hora = 29.9d;
+	Double horasProjeto = 80d;
+	Double hora = 64.0;
+	
+	double porcentagem = hora / horasProjeto * 100;
+	
+	System.out.println("Porcentagem: " + porcentagem);
 	
 	Duration duration = Duration.ofHours(hora.longValue());
 	System.out.println(duration);

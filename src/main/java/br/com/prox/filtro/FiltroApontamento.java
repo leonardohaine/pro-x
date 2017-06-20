@@ -15,7 +15,7 @@ public class FiltroApontamento {
 	private Projeto projeto;
 	private String descricao;
 	private AtividadeApontamento atividade;
-	private Date dataInicial;
-	private Date dataFinal;
+	private Date dataInicial = new Date();
+	private Date dataFinal = new Date();
 	
 }
