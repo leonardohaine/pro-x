@@ -2,7 +2,6 @@ package br.com.prox.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -40,7 +40,7 @@ public class Projeto implements Serializable {
 	
 	private String descricao;
 	
-	@NotEmpty(message = "A estimativa é obrigatório")
+	@NotNull(message = "A estimativa é obrigatório")
 	private Double estimativa;
 	
 	private BigDecimal taxa;
