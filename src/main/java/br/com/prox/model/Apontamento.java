@@ -14,7 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -52,6 +54,8 @@ public class Apontamento implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private AtividadeApontamento atividade;
 	
+	@NotEmpty(message = "Descrição é obrigatório")
+	@Size(min = 80, max = 4000, message = "Descrição deve conter no mínimo 80 e no máximo 4000 caracteres")
 	private String descricao;
 	
 	private String comentario;

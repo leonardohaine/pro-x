@@ -6,193 +6,222 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
-	
+
 	<ui:define name="conteudo">
 		<f:metadata>
 			<f:viewAction action="#{projetoBean.consultar}" />
 			<f:viewAction action="#{consultorBean.consultar}" />
 		</f:metadata>
-	
+
 		<h1>Cadastro de Projetos</h1>
-		
-		<h:form id="frm" >
-	
-			<p:messages id="msgs"  showDetail="true" />
-			
-			<p:toolbar id="toolbar">
-				<f:facet name="left">
-					<p:commandButton value="Novo" icon="ui-icon-document"
-						action="#{projetoBean.prepararNovoCadastro}"
-						process="@this" update="projeto-dialog"
-						oncomplete="PF('edicaoProjetoDialog').show()">
-						<p:resetInput target="projeto-dialog" />
-					</p:commandButton>
-					
-					<span class="ui-separator">
-						<span class="ui-icon ui-icon-grip-dotted-vertical" />
-            		</span>
-            		
-            		<p:commandButton icon="ui-icon-pencil" title="Editar" 
-            			process="@this" update="projeto-dialog"
-            			oncomplete="PF('edicaoProjetoDialog').show()"
-            			disabled="#{projetoBean.projetoSelecionado == null}">
-            			<p:resetInput target="projeto-dialog" />
-            			
-            			<f:setPropertyActionListener value="#{projetoBean.projetoSelecionado}" 
-            				target="#{projetoBean.projeto}" />
-            		</p:commandButton>
-            		
-            		<p:commandButton icon="ui-icon-trash" title="Excluir"
-            			process="@this" update="projeto-table frm:msgs toolbar"
-            			action="#{projetoBean.excluir}"
-            			disabled="#{projetoBean.projetoSelecionado == null}">
-            			
-            			<p:confirm icon="ui-icon-alert" header="Confirmação de exclusão"
-            				message="Tem certeza que deseja excluir o projeto?" />
-            		</p:commandButton>
-            		
-            		<p:commandButton icon="ui-icon-arrowthick-1-s" title="Exportar para XLS"
-            				ajax="false" immediate="true">
-            			<p:dataExporter type="xls" target="projeto-table" fileName="projeto" />
-            		</p:commandButton>
-            		
-				</f:facet>
-				
-				
-				
-			</p:toolbar>
-	
-			<p:dataTable value="#{projetoBean.todosProjetos}" var="projeto" widgetVar="tabela-projeto"
-					emptyMessage="Nenhum projeto cadastrado." rows="10" reflow="true"
-					paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5, 10, 15" 
-					style="margin-top: 10px;" id="projeto-table"
-					selection="#{projetoBean.projetoSelecionado}"
-					
-					selectionMode="single" rowKey="#{projeto.id}">
-				
-				<p:ajax event="rowSelect" update=":frm:toolbar" />
-				<p:ajax event="rowUnselect" update=":frm:toolbar" />
-				
-				<f:facet name="header">
-					<div align="right">
-			            <p:outputPanel id="panelFilter">
-			                <p:outputLabel value=" " />
-			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-projeto').filter()" style="width:250px" placeholder="pesquisa de projetos"/>
-			                <p:defaultCommand target="globalFilter" scope="panelFilter" />
-			            </p:outputPanel>
-		            </div>
-		        </f:facet>
-				
-				<p:column headerText="#" width="50" styleClass="columnCenter"
-					 sortBy="#{projeto.id}" filterBy="#{projeto.id}"
-					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
-					<h:outputText value="#{projeto.id}" />
-				</p:column>
-				
-				<p:column headerText="Nome" width="150" sortBy="#{projeto.nome}" filterBy="#{projeto.nome}"
-					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
-					<h:outputText value="#{projeto.nome}" />
-				</p:column>
-				
-				<p:column headerText="Descrição" sortBy="#{projeto.descricao}" filterBy="#{projeto.descricao}"
-					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
-					<h:outputText value="#{projeto.descricao}" />
-				</p:column>
-				
-				<p:column headerText="Consultor" width="200" 
-					sortBy="#{projeto.consultor}" filterBy="#{projeto.consultor}"
-					filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
-					
-					<p:dataList  var="con" value="#{projeto.consultor}" emptyMessage="Sem consultor">
-						<h:outputText value="#{con.nome}" />
-					</p:dataList >
-				</p:column>
-				
-				<p:column headerText="Progresso" width="150">
-					<p:progressBar value="#{projetoBean.progresso(projeto)}" labelTemplate="{value}%" displayOnly="true"/>
-				</p:column>
-				
-				<p:column headerText="Ativo" width="50" styleClass="columnCenter" >
-				<p:graphicImage library="nfx" 
-					name="#{projeto.ativo ? 'layout/images/ledgreen22.png' : 'layout/images/ledred22.png'}" />
-				</p:column>
-				
-				<f:facet name="footer">
+
+				<h:form id="frm">
+
+					<p:messages id="msgs" showDetail="true" />
+
+					<p:toolbar id="toolbar">
+						<f:facet name="left">
+							<p:commandButton value="Novo" icon="ui-icon-document"
+								action="#{projetoBean.prepararNovoCadastro}" process="@this"
+								update="projeto-dialog"
+								oncomplete="PF('edicaoProjetoDialog').show()">
+								<p:resetInput target="projeto-dialog" />
+							</p:commandButton>
+
+							<span class="ui-separator"> <span
+								class="ui-icon ui-icon-grip-dotted-vertical" />
+							</span>
+
+							<p:commandButton icon="ui-icon-pencil" title="Editar"
+								process="@this" update="projeto-dialog"
+								oncomplete="PF('edicaoProjetoDialog').show()"
+								disabled="#{projetoBean.projetoSelecionado == null}">
+								<p:resetInput target="projeto-dialog" />
+
+								<f:setPropertyActionListener
+									value="#{projetoBean.projetoSelecionado}"
+									target="#{projetoBean.projeto}" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								process="@this" update="projeto-table frm:msgs toolbar"
+								action="#{projetoBean.excluir}"
+								disabled="#{projetoBean.projetoSelecionado == null}">
+
+								<p:confirm icon="ui-icon-alert" header="Confirmação de exclusão"
+									message="Tem certeza que deseja excluir o projeto?" />
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-arrowthick-1-s"
+								title="Exportar para XLS" ajax="false" immediate="true">
+								<p:dataExporter type="xls" target="frm:projeto-table"
+									fileName="projeto" />
+							</p:commandButton>
+
+						</f:facet>
+
+					</p:toolbar>
+
+					<p:dataTable value="#{projetoBean.todosProjetos}" var="projeto"
+						widgetVar="tabela-projeto"
+						emptyMessage="Nenhum projeto cadastrado." rows="10" reflow="true"
+						paginator="true" paginatorPosition="bottom"
+						rowsPerPageTemplate="5, 10, 15" style="margin-top: 10px;"
+						id="projeto-table" selection="#{projetoBean.projetoSelecionado}"
+						selectionMode="single" rowKey="#{projeto.id}">
+
+						<p:ajax event="rowSelect" update="frm:toolbar" />
+						<p:ajax event="rowUnselect" update="frm:toolbar" />
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel id="panelFilter">
+									<p:outputLabel value=" " />
+									<p:inputText id="globalFilter"
+										onkeyup="if (event.keyCode == 13) PF('tabela-projeto').filter()"
+										style="width:250px" placeholder="pesquisa de projetos" />
+									<p:defaultCommand target="globalFilter" scope="panelFilter" />
+								</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column headerText="#" width="50" styleClass="columnCenter"
+							sortBy="#{projeto.id}" filterBy="#{projeto.id}"
+							filterStyle="display: none; visibility: hidden;"
+							filterMatchMode="contains">
+							<h:outputText value="#{projeto.id}" />
+						</p:column>
+
+						<p:column headerText="Nome" width="150" sortBy="#{projeto.nome}"
+							filterBy="#{projeto.nome}"
+							filterStyle="display: none; visibility: hidden;"
+							filterMatchMode="contains">
+							<h:outputText value="#{projeto.nome}" />
+						</p:column>
+
+						<p:column headerText="Descrição" sortBy="#{projeto.descricao}"
+							filterBy="#{projeto.descricao}"
+							filterStyle="display: none; visibility: hidden;"
+							filterMatchMode="contains">
+							<h:outputText value="#{projeto.descricao}" />
+						</p:column>
+
+						<p:column headerText="Consultor" width="200"
+							sortBy="#{projeto.consultor}" filterBy="#{projeto.consultor}"
+							filterStyle="display: none; visibility: hidden;"
+							filterMatchMode="contains">
+
+							<p:dataList var="con" value="#{projeto.consultor}"
+								emptyMessage="Sem consultor">
+								<h:outputText value="#{con.nome}" />
+							</p:dataList>
+						</p:column>
+
+						<p:column headerText="Progresso" width="150">
+							<p:progressBar value="#{projetoBean.progresso(projeto)}"
+								labelTemplate="{value}%" displayOnly="true" />
+						</p:column>
+
+						<p:column headerText="Ativo" width="50" styleClass="columnCenter">
+							<p:graphicImage library="nfx"
+								name="#{projeto.ativo ? 'layout/images/ledgreen22.png' : 'layout/images/ledred22.png'}" />
+						</p:column>
+
+						<f:facet name="footer">
 			        Total de registros:  #{projetoBean.todosProjetos.size()}
 			    </f:facet>
-				
+
 			</p:dataTable>
-		
-			<p:dialog header="Novo projeto" widgetVar="edicaoProjetoDialog" id="projeto-dialog" 
-					fitViewport="true" style="margin-top: 50px;" showEffect="fade" hideEffect="fade"
-					resizable="false" modal="false" closeOnEscape="true" responsive="true"
-					width="780">
-				
-				<p:messages id="msgs-dialog" />
-				<p:defaultCommand target="salvar-button" scope="projeto-dialog" />
-				
-				<div class="ui-fluid">
-					<p:scrollPanel mode="native" style="max-height:500px">
-						<p:panelGrid columns="2" id="painel-dialog" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8">
-							
-							<p:outputLabel value="Nome" for="nome" />
-							<p:inputText id="nome" size="40" maxlength="80" 
-								value="#{projetoBean.projeto.nome}" />
-								
-							<p:outputLabel value="Descrição" for="descricao" />
-							<p:inputTextarea id="descricao" size="40" maxlength="80" 
-								value="#{projetoBean.projeto.descricao}" />
-								
-							<p:outputLabel value="Estimativa" for="estimativa" />
-							<p:inputText id="estimativa" value="#{projetoBean.projeto.estimativa}" >
-								
-							</p:inputText>	
-								
-							<p:outputLabel value="Valor" for="valor" />
-							<p:inputNumber  id="valor" size="20" maxlength="120" style="width: 200px !important"
-								decimalSeparator="," thousandSeparator="."
-								value="#{projetoBean.projeto.taxa}" >
-							</p:inputNumber >
-							
-							<p:outputLabel value="Consultor" for="consultor" />
-						<ui:remove>
-							<p:selectCheckboxMenu id="consultor" value="#{projetoBean.projeto.consultor}"
-									converter="consultorConverter" 
-									label="Cities" multiple="true"
-                            		filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-					            <f:selectItems value="#{projetoBean.todosProjetos.get(0).getConsultor()}" var="con" 
-				            		itemLabel="#{con.nome}" itemValue="#{con}" />
-					        </p:selectCheckboxMenu>
-						</ui:remove>	
+
+					<p:dialog header="Novo projeto" widgetVar="edicaoProjetoDialog"
+						id="projeto-dialog" fitViewport="true" style="margin-top: 30px;"
+						showEffect="fade" hideEffect="fade" resizable="false"
+						modal="false" closeOnEscape="true" responsive="true" width="820">
 						
-							<p:pickList id="consultor" value="#{projetoBean.consultorModel}" style="height:100px !important;"
-								converter="consultorPickListConverter" 
-								var="consultor" itemLabel="#{consultor.nome}" itemValue="#{consultor}" >
-								
-								<f:facet name="sourceCaption">Não selecionados</f:facet>  
-				        		<f:facet name="targetCaption">Selecionados</f:facet> 
-								
-							</p:pickList>	
-				        							
-							<p:outputLabel value="Ativo" for="ativo" />
-							<p:selectBooleanButton id="ativo" value="#{projetoBean.projeto.ativo}"
-								offLabel="Não" onLabel="Sim" style="width: 70px;"
-								onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+						<div class="ui-fluid">
+					
+						<p:messages id="msgs-dialog" />
+						<p:defaultCommand target="tab:salvar-button" scope="projeto-dialog" />
+					
+						<p:tabView id="tab">
+							<p:tab title="Cadastro">
+					
+							<p:scrollPanel mode="native" style="max-height:300px">
+								<p:panelGrid columns="2" id="painel-dialog" layout="grid"
+									columnClasses="ui-grid-col-4,ui-grid-col-8">
+
+									<p:outputLabel value="Nome" for="nome" />
+									<p:inputText id="nome" size="40" maxlength="80"
+										value="#{projetoBean.projeto.nome}" />
+
+									<p:outputLabel value="Descrição" for="descricao" />
+									<p:inputTextarea id="descricao" size="40" maxlength="80"
+										value="#{projetoBean.projeto.descricao}" />
+
+									<p:outputLabel value="Estimativa" for="estimativa" />
+									<p:inputText id="estimativa"
+										value="#{projetoBean.projeto.estimativa}" />
+
+									<p:outputLabel value="Valor" for="valor" />
+									<p:inputNumber id="valor" size="20" maxlength="120"
+										style="width: 200px !important" decimalSeparator=","
+										thousandSeparator="." value="#{projetoBean.projeto.taxa}">
+									</p:inputNumber>
+
+									<p:outputLabel value="Consultor" for="consultor" />
+									<ui:remove>
+										<p:selectCheckboxMenu id="consultor"
+											value="#{projetoBean.projeto.consultor}"
+											converter="consultorConverter" label="Cities" multiple="true"
+											filter="true" filterMatchMode="startsWith"
+											panelStyle="width:250px">
+											<f:selectItems
+												value="#{projetoBean.todosProjetos.get(0).getConsultor()}"
+												var="con" itemLabel="#{con.nome}" itemValue="#{con}" />
+										</p:selectCheckboxMenu>
+									</ui:remove>
+
+									<p:pickList id="consultor"
+										value="#{projetoBean.consultorModel}"
+										style="height:100px !important;"
+										converter="consultorPickListConverter" var="consultor"
+										itemLabel="#{consultor.nome}" itemValue="#{consultor}">
+
+										<f:facet name="sourceCaption">Não selecionados</f:facet>
+										<f:facet name="targetCaption">Selecionados</f:facet>
+
+									</p:pickList>
+									
+									<p:outputLabel value="Ativo" for="ativo" />
+									<p:selectBooleanButton id="ativo"
+										value="#{projetoBean.projeto.ativo}" offLabel="Não"
+										onLabel="Sim" style="width: 70px;" onIcon="ui-icon-check"
+										offIcon="ui-icon-close" />
+
+									<p:outputLabel />
+									<p:commandButton value="Salvar" id="salvar-button"
+										action="#{projetoBean.salvar}" style="width: 70px"
+										process="frm:projeto-dialog" update="frm:msgs-dialog painel-dialog"
+										oncomplete="if (!args.validationFailed) PF('edicaoProjetoDialog').hide()" />
+
+									<p:outputLabel />
+									<p:outputLabel />
+								</p:panelGrid>
+							</p:scrollPanel>
 							
-							<p:outputLabel />
-							<p:commandButton value="Salvar" id="salvar-button"
-								action="#{projetoBean.salvar}" style="width: 70px"
-								process="projeto-dialog" update="msgs-dialog painel-dialog"
-								oncomplete="if (!args.validationFailed) PF('edicaoProjetoDialog').hide()" />
+							</p:tab>
+							<p:tab title="Wiki" >
+								<p:commandButton value="Limpar" >
+									<p:resetInput target="editor1" ></p:resetInput>
+								</p:commandButton>
+								<p:textEditor widgetVar="editor1"  value="#{projetoBean.projeto.wiki}" height="300" style="margin-bottom:10px"/>
+							</p:tab>
+						</p:tabView>
 							
-							<p:outputLabel/>
-							<p:outputLabel/>
-						</p:panelGrid>
-					</p:scrollPanel>
-				</div>
-			</p:dialog>
-		
-		</h:form>
-		
+						</div>
+					</p:dialog>
+
+				</h:form>
+			
 	</ui:define>
 </ui:composition>

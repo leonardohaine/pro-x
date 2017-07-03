@@ -20,11 +20,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	/*@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
 	@Autowired
 	private DataSource datasource;
+	
+	/*@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Value("${spring.queries.users-query}")
 	private String usersQuery;
@@ -45,8 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 
 		//System.out.println("AUTHENTICATION DETAILS: " + authentication.getDetails());
 		auth.inMemoryAuthentication()
-			.withUser("haine").password("leonardo").authorities("CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE").and()
-			.withUser("silva").password("diego").authorities("CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE");
+			.withUser("haine").password("leonardo").authorities("ACESSO_SISTEMA", "CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE").and()
+			.withUser("silva").password("diego").authorities("ACESSO_SISTEMA", "CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE");
 	}
 
 	@Override
@@ -63,19 +63,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  .authorizeRequests()
 	          .antMatchers("/javax.faces.resource/**").permitAll()
 	          .antMatchers("/error/404.jsf", "/error/500.jsf", "/error/403.jsf").permitAll() // Precisa estar autenticado
-	          .antMatchers("/princpal.jsf").fullyAuthenticated()
+	          .antMatchers("/princpal.jsf").hasAuthority("ACESSO_SISTEMA")
 	          .antMatchers("/consultor.jsf").hasAuthority("CONSULTOR")
 	          .antMatchers("/projeto.jsf").hasAuthority("PROJETO")
 	          .antMatchers("/apontamento.jsf").hasAuthority("APONTAMENTO")
 	          .antMatchers("/contratante.jsf").hasAuthority("CONTRATANTE")
 				.and()
 			.formLogin()
-			.loginPage("/login.xhtml")
+			.loginPage("/login.jsf")
 			.loginProcessingUrl("/login")
-			.defaultSuccessUrl("/principal.xhtml")
+			.defaultSuccessUrl("/principal.jsf")
 			.and()
 			.logout().logoutUrl("/logout")
-			.logoutSuccessUrl("/login.xhtml")
+			.logoutSuccessUrl("/login.jsf")
 			.invalidateHttpSession(true)
 			
 			/*		.loginPage("/index.jsf")
@@ -85,22 +85,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				 .and()
-			     .exceptionHandling().accessDeniedPage("/error/403.jsf")
-				.and()
-				.rememberMe()
-				.tokenRepository(persistentTokenRepository())
-				.key("rem-me-key")
-				.rememberMeParameter("remember-me")
-				.rememberMeCookieName("my-remember-me")
-				.tokenValiditySeconds(86400)*/
+			     .exceptionHandling().accessDeniedPage("/error/403.jsf")*/
+			.and()
+			.rememberMe()
+			.rememberMeParameter("remember-me")
+			.tokenRepository(persistentTokenRepository())
+			.tokenValiditySeconds(86400)
 				; 
 	}
 	
 	
-//	@Bean
-//	public PersistentTokenRepository persistentTokenRepository() {
-//		JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-//		//tokenRepository.setDataSource(datasource);
-//		return tokenRepository;
-//	}
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+		tokenRepository.setDataSource(datasource);
+		return tokenRepository;
+	}
 }

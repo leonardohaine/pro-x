@@ -102,7 +102,7 @@
 		    </p:fieldset>
 	
 			<p:dataTable value="#{apontamentoBean.todosApontamentos}" var="apontamento" widgetVar="tabela-apontamento"
-					emptyMessage="Nenhum apontamento cadastrado." rows="10" reflow="true"
+					emptyMessage="Nenhum apontamento cadastrado." rows="9" reflow="true"
 					paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5, 10, 15" 
 					style="margin-top: 10px;" id="apontamento-table"
 					selection="#{apontamentoBean.apontamentoSelecionado}"
@@ -189,7 +189,7 @@
 			</p:dataTable>
 		
 			<p:dialog header="Novo apontamento" widgetVar="edicaoApontamentoDialog" id="apontamento-dialog" 
-					width="500px"
+					width="500px" height="400px"
 					fitViewport="true" style="margin-top: 50px;" showEffect="fade" hideEffect="fade"
 					resizable="false" modal="false" closeOnEscape="true" responsive="true">
 				
@@ -205,12 +205,16 @@
 								value="#{apontamentoBean.apontamento.titulo}" />
 							
 							<p:outputLabel value="Comentario" for="comentario" />
-							<p:inputTextarea id="comentario" size="40" maxlength="80" 
+							<p:inputTextarea id="comentario" size="40" maxlength="4000" 
+								counterTemplate=" Máximo de {0}." autoResize="false" counter="display"
 								value="#{apontamentoBean.apontamento.comentario}" />
+							
+							<p:outputLabel/>
+							<h:outputText id="display" styleClass="columnCenter" />
 							
 							<p:outputLabel value="Projeto" for="projeto" />
 							<p:selectOneMenu id="projeto" value="#{apontamentoBean.apontamento.projeto}" 
-									converter="projetoConverter"
+									converter="projetoConverter" filter="true" filterMatchMode="startsWith"
 									placeholder="selecione o projeto">
 								<f:selectItem itemLabel="Selecione o projeto"/>
 								<f:selectItems value="#{projetoBean.todosProjetos}" var="proj"
@@ -218,14 +222,16 @@
 							</p:selectOneMenu>
 								
 							<p:outputLabel value="Atividade" for="atividade" />
-							<p:selectOneMenu id="atividade" value="#{apontamentoBean.apontamento.atividade}">
+							<p:selectOneMenu id="atividade" value="#{apontamentoBean.apontamento.atividade}"
+									filter="true" filterMatchMode="startsWith">
 								<f:selectItem itemLabel="Selecione a atividade" />
 								<f:selectItems value="#{apontamentoBean.todasAtividadesApontamento()}" var="atividade"
 									itemLabel="#{atividade.descricao}" itemValue="#{atividade}" />
 							</p:selectOneMenu>	
 							
 							<p:outputLabel value="Status" for="status" />
-							<p:selectOneMenu id="status" value="#{apontamentoBean.apontamento.status}">
+							<p:selectOneMenu id="status" value="#{apontamentoBean.apontamento.status}"
+									filter="true" filterMatchMode="startsWith">
 								<f:selectItems value="#{apontamentoBean.todosStatusApontamento()}" var="status"
 									itemLabel="#{status.descricao}" itemValue="#{status}" />
 							</p:selectOneMenu>	
@@ -237,8 +243,9 @@
 							/>	
 							
 							<p:outputLabel value="Tempo gasto" for="tempoGasto" />
-							<p:calendar id="tempoGasto" value="#{apontamentoBean.apontamento.tempoGasto}"
-								pattern="H:mm" timeOnly="true"  >
+							<p:calendar id="tempoGasto" value="#{apontamentoBean.apontamento.tempoGasto}" 
+								minMinute="15" readonlyInput="true" stepMinute="5" showButtonPanel="true"
+								pattern="H:mm" timeOnly="true" >
 								<f:convertDateTime type="localTime" pattern="H:mm"/>
 							</p:calendar>	
 							
