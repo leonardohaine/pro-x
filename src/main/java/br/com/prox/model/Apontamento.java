@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -47,7 +46,7 @@ public class Apontamento implements Serializable {
 //	private Calendar tempoGasto;
 
 	@NotNull(message = "Tempo é obrigatório")
-	@DateTimeFormat(pattern = "H:mm")
+	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime  tempoGasto;
 	
 	@NotNull(message = "Atividade é obrigatória")
@@ -57,7 +56,7 @@ public class Apontamento implements Serializable {
 	private String descricao;
 	
 	@NotEmpty(message = "Comentário é obrigatório")
-	@Size(min = 80, max = 4000, message = "Comentário deve conter no mínimo 80 e no máximo 4000 caracteres")
+	@Size(min = 20, max = 4000, message = "Comentário deve conter no mínimo 20 e no máximo 4000 caracteres")
 	private String comentario;
 	
 	@NotNull(message = "Status é obrigatório")
