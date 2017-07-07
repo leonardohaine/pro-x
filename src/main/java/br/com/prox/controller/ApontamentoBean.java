@@ -135,6 +135,7 @@ public class ApontamentoBean implements Serializable {
 	public void consultar(){
 		try{
 			todosApontamentos = apontamentos.findAll();
+			System.out.println("Consulta retornou " + todosApontamentos.size() + " registros");
 			filtro = new FiltroApontamento();
 		} catch (Exception e) {
 			e.printStackTrace();

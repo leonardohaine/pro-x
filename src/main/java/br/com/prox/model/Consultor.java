@@ -8,14 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import lombok.Data;
 
 @Entity
 @Data
-@Audited
+//@Audited
 public class Consultor {
 
 	@Id

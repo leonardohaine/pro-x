@@ -47,17 +47,17 @@ public class Apontamento implements Serializable {
 //	private Calendar tempoGasto;
 
 	@NotNull(message = "Tempo é obrigatório")
-	@DateTimeFormat(pattern = "HH:mm")
+	@DateTimeFormat(pattern = "H:mm")
 	private LocalTime  tempoGasto;
 	
 	@NotNull(message = "Atividade é obrigatória")
 	@Enumerated(EnumType.STRING)
 	private AtividadeApontamento atividade;
 	
-	@NotEmpty(message = "Descrição é obrigatório")
-	@Size(min = 80, max = 4000, message = "Descrição deve conter no mínimo 80 e no máximo 4000 caracteres")
 	private String descricao;
 	
+	@NotEmpty(message = "Comentário é obrigatório")
+	@Size(min = 80, max = 4000, message = "Comentário deve conter no mínimo 80 e no máximo 4000 caracteres")
 	private String comentario;
 	
 	@NotNull(message = "Status é obrigatório")

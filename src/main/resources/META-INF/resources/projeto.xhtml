@@ -15,7 +15,7 @@
 
 		<h1>Cadastro de Projetos</h1>
 
-				<h:form id="frm">
+				<h:form id="frm" onkeyup="return event.keyCode != 13">
 
 					<p:messages id="msgs" showDetail="true" />
 
@@ -141,9 +141,9 @@
 						<div class="ui-fluid">
 					
 						<p:messages id="msgs-dialog" />
-						<p:defaultCommand target="tab:salvar-button" scope="projeto-dialog" />
+						<p:defaultCommand target="salvar-button" scope="projeto-dialog" />
 					
-						<p:tabView id="tab">
+						<p:tabView id="tab" >
 							<p:tab title="Cadastro">
 					
 							<p:scrollPanel mode="native" style="max-height:300px">
@@ -199,10 +199,7 @@
 										offIcon="ui-icon-close" />
 
 									<p:outputLabel />
-									<p:commandButton value="Salvar" id="salvar-button"
-										action="#{projetoBean.salvar}" style="width: 70px"
-										process="frm:projeto-dialog" update="frm:msgs-dialog painel-dialog"
-										oncomplete="if (!args.validationFailed) PF('edicaoProjetoDialog').hide()" />
+									
 
 									<p:outputLabel />
 									<p:outputLabel />
@@ -211,13 +208,17 @@
 							
 							</p:tab>
 							<p:tab title="Wiki" >
-								<p:commandButton value="Limpar" >
+								<p:commandButton value="Limpar" style="width: 80px">
 									<p:resetInput target="editor1" ></p:resetInput>
 								</p:commandButton>
-								<p:textEditor widgetVar="editor1"  value="#{projetoBean.projeto.wiki}" height="300" style="margin-bottom:10px"/>
+								<p:textEditor widgetVar="editor1"  value="#{projetoBean.projeto.wiki}" 
+										height="250" style="margin-bottom:10px"/>
 							</p:tab>
 						</p:tabView>
-							
+							<p:commandButton value="Salvar" id="salvar-button" global="false" validateClient="if (event.keyCode == 13) {return false; }"
+										action="#{projetoBean.salvar}" style="width: 70px;"
+										process="projeto-dialog" update="frm:msgs-dialog tab:painel-dialog"
+										oncomplete="if (!args.validationFailed) PF('edicaoProjetoDialog').hide()" />
 						</div>
 					</p:dialog>
 

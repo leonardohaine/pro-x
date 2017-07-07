@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
-import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +25,7 @@ import lombok.Data;
 @Entity
 @Data
 @Transactional
-@Audited
+//@Audited
 public class Projeto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
