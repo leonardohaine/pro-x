@@ -13,7 +13,7 @@
 			<f:viewAction action="#{projetoBean.consultar}" />
 		</f:metadata>
 	
-		<h1>Cadastro de Apontamentos</h1>
+		<h1>Apontamentos</h1>
 		
 		<h:form id="frm" >
 	
@@ -36,17 +36,21 @@
             		<p:commandButton icon="ui-icon-pencil" title="Editar" 
             			process="@this" update="apontamento-dialog"
             			oncomplete="PF('edicaoApontamentoDialog').show()"
-            			disabled="#{apontamentoBean.apontamentoSelecionado == null}">
+            			disabled="#{apontamentoBean.apontamentosSelecionados.isEmpty() or 
+            						apontamentoBean.apontamentosSelecionados.size() > 1 or
+            						apontamentoBean.apontamentosSelecionados == null}">
             			<p:resetInput target="apontamento-dialog" />
             			
-            			<f:setPropertyActionListener value="#{apontamentoBean.apontamentoSelecionado}" 
+            			<f:setPropertyActionListener value="#{apontamentoBean.apontamentosSelecionados.get(0)}" 
             				target="#{apontamentoBean.apontamento}" />
             		</p:commandButton>
             		
             		<p:commandButton icon="ui-icon-trash" title="Excluir"
             			process="@this" update="apontamento-table frm:msgs toolbar"
-            			action="#{apontamentoBean.excluir}"
-            			disabled="#{apontamentoBean.apontamentoSelecionado == null}">
+            			action="#{apontamentoBean.excluir}" 
+            			disabled="#{apontamentoBean.apontamentosSelecionados.isEmpty() or 
+            						apontamentoBean.apontamentosSelecionados.size() > 1 or
+            						apontamentoBean.apontamentosSelecionados == null}">
             			
             			<p:confirm icon="ui-icon-alert" header="Confirmação de exclusão"
             				message="Tem certeza que deseja excluir o apontamento?" />
@@ -100,18 +104,33 @@
 			        
 		        </h:panelGrid>
 		    </p:fieldset>
-	
+			
+			<p:panel id="panelOptions" 
+					 rendered="#{apontamentoBean.apontamentosSelecionados.size() > 1}">
+				<p:commandButton action="#{apontamentoBean.excluirTodos}" process="@this"
+						title="Excluir todos apontamentos"
+						update="apontamento-table frm:msgs frm:toolbar"
+						value="Excluir todos" icon="fa fa-trash"  />
+				<p:commandButton actionListener="#{apontamentoBean.aprovarTodos}" process="@this" 
+						title="Aprovar todos apontamentos"
+						update="apontamento-table frm:msgs frm:toolbar"
+						value="Aprovar todos" icon="fa fa-check-square-o"  />
+			</p:panel>
+			
 			<p:dataTable value="#{apontamentoBean.todosApontamentos}" var="apontamento" widgetVar="tabela-apontamento"
 					emptyMessage="Nenhum apontamento cadastrado." rows="9" reflow="true"
 					paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5, 10, 15" 
 					style="margin-top: 10px;" id="apontamento-table"
-					selection="#{apontamentoBean.apontamentoSelecionado}"
+					selection="#{apontamentoBean.apontamentosSelecionados}" rowKey="#{apontamento.id}"
 					
-					selectionMode="single" rowKey="#{apontamento.id}">
+					>
 				
-				<p:ajax event="rowSelect" listener="#{apontamentoBean.onRowSelect}" update=":frm:toolbar frm:msgs" />
-				<p:ajax event="rowUnselect" update=":frm:toolbar" />
+				<p:ajax event="rowSelectCheckbox" listener="#{apontamentoBean.onRowSelect}" update=" frm :frm:toolbar frm:msgs" />
+				<p:ajax event="rowUnselectCheckbox" update=" frm :frm:toolbar frm:msgs" />
+				<p:ajax event="toggleSelect" update="frm :frm:toolbar frm:msgs" />
 				
+				<p:ajax event="rowSelect" listener="#{apontamentoBean.onRowSelect}" update="frm :frm:toolbar frm:msgs" />
+				<p:ajax event="rowUnselect" update="frm :frm:toolbar frm:msgs" />
 				
 				
 				<f:facet name="header">
@@ -126,6 +145,8 @@
 			        	</p:outputPanel>       
 		            </div>
 		        </f:facet>
+		        
+		        <p:column selectionMode="multiple" style="width:55px;text-align:center"/>
 				
 				<p:column headerText="#" width="50" styleClass="columnCenter"
 					 sortBy="#{apontamento.id}" filterBy="#{apontamento.id}"
@@ -173,7 +194,7 @@
 						rendered="#{apontamento.status == 'PENDENTE'}"
 						styleClass="fa fa-check-square-o" 
 						process="@this" 
-						title="Receber título"
+						title="Aprovar apontamento"
 						update="apontamento-table frm:msgs frm:toolbar">
 						
 						<f:setPropertyActionListener value="#{apontamento}" target="#{apontamentoBean.apontamento}" />

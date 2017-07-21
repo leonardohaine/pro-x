@@ -24,6 +24,10 @@ public class ApontamentoService implements Serializable {
 	public void excluir(Apontamento apontamento) {
 		dao.delete(apontamento);
 	}
+	
+	public void atualizarStatus(Apontamento apontamento) {
+		dao.saveAndFlush(apontamento);
+	}
 
 	public List<Apontamento> filtroApontamento(FiltroApontamento filtro){
 		

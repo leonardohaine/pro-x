@@ -46,6 +46,7 @@ public class ApontamentoBean implements Serializable {
 	private Apontamento apontamento = new Apontamento();
 	private Apontamento apontamentoSelecionado;
 	private List<Apontamento> todosApontamentos;
+	private List<Apontamento> apontamentosSelecionados;
 	
 	public void prepararNovoCadastro() {
 		apontamento = new Apontamento();
@@ -86,6 +87,24 @@ public class ApontamentoBean implements Serializable {
 		}	
 	}
 	
+	public void excluirTodos(){
+		try{
+			for(Apontamento apontamento : apontamentosSelecionados){
+				if(apontamento.getStatus().equals(StatusApontamento.PENDENTE)){
+					apontamento.setStatus(StatusApontamento.APROVADO);
+					service.excluir(apontamento);
+				}
+			}
+			consultar();
+			
+			messages.info("Apontamento excluído com sucesso!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			messages.error("Erro ao tentar excluir apontamento em lote: \n" + e.getMessage());
+			RequestContext.getCurrentInstance().update("frm:msgs");
+		}	
+	}
+	
 	public List<StatusApontamento> todosStatusApontamento() {
 		return Arrays.asList(StatusApontamento.values());
 	}
@@ -101,6 +120,24 @@ public class ApontamentoBean implements Serializable {
 		consultar();
 		
 		messages.info("Apontamento aprovado com sucesso!");
+		RequestContext.getCurrentInstance().update(
+				Arrays.asList("frm:msgs", "frm:apontamento-table"));
+	}
+	
+	public void aprovarTodos(){
+		try{
+		for(Apontamento apontamento : apontamentosSelecionados){
+			if(apontamento.getStatus().equals(StatusApontamento.PENDENTE)){
+				apontamento.setStatus(StatusApontamento.APROVADO);
+				service.atualizarStatus(apontamento);
+			}
+		}
+		}catch (Exception e) {
+			messages.error("Erro durante aprovação em lote: \n" + e.getMessage());
+		}
+		consultar();
+		
+		messages.info("Apontamentos aprovados com sucesso!");
 		RequestContext.getCurrentInstance().update(
 				Arrays.asList("frm:msgs", "frm:apontamento-table"));
 	}
@@ -151,12 +188,11 @@ public class ApontamentoBean implements Serializable {
 			List<Apontamento> t = apontamentos.totalHoras(apontamentoSelecionado.getProjeto());
 			System.out.println("Get total horas..." + t);
 		}
-		
-//        FacesMessage msg = new FacesMessage("Apontamento com projeto: ", ((Apontamento) event.getObject()).getId().toString());
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-//        
-//        messages.info(apontamentoSelecionado.getProjeto().getDescricao());
-//        messages.info(apontamento != null ? apontamento.getDescricao() : null);
     }
+	
+	public void onUnRowSelect(SelectEvent event){
+		System.out.println("removendo seleção checkbox..." + event.getSource());
+		
+	}
 	
 }
