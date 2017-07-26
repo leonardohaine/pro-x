@@ -9,8 +9,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
@@ -31,7 +33,8 @@ public class Projeto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_projeto")
+    @SequenceGenerator(name = "seq_projeto", sequenceName = "seq_projeto",  allocationSize = 0)
 	private Long id;
 	
 	@NotEmpty(message = "O nome do projeto é obrigatório")

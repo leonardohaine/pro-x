@@ -59,11 +59,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
+		http.anonymous().disable();
 		http
 		  .authorizeRequests()
 	          .antMatchers("/javax.faces.resource/**").permitAll()
 	          .antMatchers("/error/404.jsf", "/error/500.jsf", "/error/403.jsf").permitAll() // Precisa estar autenticado
-	          .antMatchers("/princpal.jsf").hasAuthority("ACESSO_SISTEMA")
+	          .antMatchers("/principal.jsf").hasAuthority("ACESSO_SISTEMA")
 	          .antMatchers("/consultor.jsf").hasAuthority("CONSULTOR")
 	          .antMatchers("/projeto.jsf").hasAuthority("PROJETO")
 	          .antMatchers("/apontamento.jsf").hasAuthority("APONTAMENTO")

@@ -14,9 +14,13 @@
   <ui:composition template="/templates/LayoutPadrao2.xhtml">
    <ui:define name="conteudo">
   
+  		<f:metadata>
+			<f:viewAction action="#{principalBean.logando}" />
+		</f:metadata>
+  
     <div class="ui-fluid" align="center">
         
-        <br/><br/><br/> Dashboard
+        <br/><br/><br/> Dashboard<br/>"${session.maxInactiveInterval}"
         	<p:chart type="line" model="#{graficoBean.areaModel}" responsive="true" style="height:300px" />
         	
 <!-- 		<p:chart type="bar" model="#{unidade.barModel}" responsive="true" style="height:300px; width: 500px;"/> -->

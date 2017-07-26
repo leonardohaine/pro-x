@@ -231,9 +231,9 @@
     </div>
 
     <footer class="app-footer">
-        <a href="http://coreui.io">LHaine</a> © 2017.
+        <a href="Javascript:window.location='${request.contextPath}/principal.jsf'">LHaine</a> © 2017.
         <span class="float-right">
-			<p:clock pattern="HH:mm:ss - dd/MM/yyyy" />- ${environment.getProperty('nfx.version')}
+			<p:clock pattern="HH:mm:ss - dd/MM/yyyy" />- ${environment.getProperty('prox.version')}
         </span>
     </footer>
 
@@ -256,6 +256,38 @@
 			<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes"
 				icon="ui-icon-check" />
 		</p:confirmDialog>
+		
+		<p:growl id="messages" showDetail="true" sticky="true" life="1000"  />
+	<ui:remove>
+		<p:idleMonitor timeout="${session.maxInactiveInterval}">
+			  <p:ajax event="idle" listener="#{principalBean.logout}" oncomplete="PF('idleDialog').show();" update="messages" />
+			  <p:ajax event="active" listener="#{principalBean.logout}" update="messages" />
+	     </p:idleMonitor>
+	     
+	     <p:dialog
+	             header="A sessão expirou"
+	             widgetVar="idleDialog"
+	             modal="true"
+	             global="true"
+	             responsive="true"
+	             fixedCenter="true"
+	             closable="false"
+	             draggable="false"
+	             resizable="false"
+	             appendToBody="true"
+	            
+	             style="text-align: center;"
+	             height="100"
+	             width="400"
+	             >
+             <div align="center">
+		         <p:outputLabel escape="false"  value="A sessão expirou após ${(environment.getProperty('server.session.timeout')/1000).intValue()} minutos de inatividade.&lt;br/&gt; Faça login novamente." >
+		         	<f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+		         </p:outputLabel><br/><br/>
+		         <p:commandButton value="OK"  onclick="PF('idleDialog').hide();"></p:commandButton>
+	         </div>
+	     </p:dialog>
+	</ui:remove>	
 	</h:form>
 
 

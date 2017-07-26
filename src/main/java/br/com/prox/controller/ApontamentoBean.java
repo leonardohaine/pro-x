@@ -2,13 +2,13 @@ package br.com.prox.controller;
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
+import org.apache.catalina.session.StandardSessionFacade;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -145,6 +145,11 @@ public class ApontamentoBean implements Serializable {
 	public void filtro(){
 		try{
 			todosApontamentos = service.filtroApontamento(filtro);
+			
+			if(todosApontamentos.isEmpty()){
+				messages.warn("os parâmetros informados na pesquisa não retornou registros");
+			}
+			
 		}catch (InvalidDataAccessApiUsageException e) {
 			if(filtro.getDataInicial() == null || filtro.getDataFinal() == null){
 				messages.error("Preencha a data inicial e data final");

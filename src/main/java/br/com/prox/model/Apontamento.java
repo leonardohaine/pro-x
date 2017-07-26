@@ -9,9 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -30,7 +32,8 @@ public class Apontamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_apontamento")
+    @SequenceGenerator(name = "seq_apontamento", sequenceName = "seq_apontamento",  allocationSize = 0)
 	private Long id;
 	
 	@NotEmpty(message = "Título é obrigatório")

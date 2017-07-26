@@ -24,11 +24,14 @@ public class FacesMessages implements Serializable {
 	}
 	
 	public void info(String message) {
-		add(message, "Informação", FacesMessage.SEVERITY_INFO);
+		add(message, "Informação | ", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public void error(String message) {
-		add(message, "Erro", FacesMessage.SEVERITY_ERROR);
+		add(message, "Erro | ", FacesMessage.SEVERITY_ERROR);
 	}
-	
+
+	public void warn(String message) {
+		add(message, "Aviso | ", FacesMessage.SEVERITY_WARN);
+	}
 }

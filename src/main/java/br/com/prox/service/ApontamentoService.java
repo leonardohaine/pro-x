@@ -46,7 +46,7 @@ public class ApontamentoService implements Serializable {
 			System.out.println("Pesquisando atividade...");
 			return dao.findByAtividade(filtro.getAtividade());
 			
-		}else if(filtro.getProjeto() != null || filtro.getDataInicial() != null && filtro.getDataFinal() != null && filtro.getAtividade() == null){
+		}else if(filtro.getDataInicial() != null && filtro.getDataFinal() != null &&filtro.getProjeto() != null && filtro.getAtividade() == null){
 			
 			System.out.println("Pesquisando por projeto e data...");
 			return dao.findByProjetoAndDataBetween(filtro.getProjeto(), filtro.getDataInicial(), filtro.getDataFinal());

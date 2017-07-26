@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>ProX</name>
+	<name>ProX 1.0.0</name>
 	<description>Sistema de apontamento de horas para projetos</description>
 
 
