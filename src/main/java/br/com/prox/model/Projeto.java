@@ -47,6 +47,7 @@ public class Projeto implements Serializable {
 	
 	private BigDecimal taxa;
 	
+	@Column(length = 4000)
 	private String wiki;
 	
 	@Type(type= "org.hibernate.type.NumericBooleanType")

@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -60,6 +61,7 @@ public class Apontamento implements Serializable {
 	
 	@NotEmpty(message = "Comentário é obrigatório")
 	@Size(min = 20, max = 4000, message = "Comentário deve conter no mínimo 20 e no máximo 4000 caracteres")
+	@Column(length = 4000)
 	private String comentario;
 	
 	@NotNull(message = "Status é obrigatório")

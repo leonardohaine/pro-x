@@ -1,21 +1,26 @@
 @import "bourbon";
 
 body {
-	background-color: #263238 !important;	
+	background-color: #263238  !important;	
 }
 
 .wrapper {	
 	margin-top: 80px;
-  margin-bottom: 80px;
+  	margin-bottom: 80px;
 }
 
 .form-signin {
   max-width: 380px;
-  padding: 15px 35px 45px;
+  padding: 45px 35px 45px;
   margin: 0 auto;
   background-color: #fff;
   border: 1px solid rgba(0,0,0,0.1);  
-  border-radius: 15px;
+  border-radius: 195px;
+  text-align: center;
+  
+  	box-shadow: 0.2em 0.3em 0.1em #0000ff,
+      -0.3em 0.1em 0.2em #ff0000,
+      0.4em -0.3em 0.1em #FF8C00;
 
   .form-signin-heading,
 	.checkbox {

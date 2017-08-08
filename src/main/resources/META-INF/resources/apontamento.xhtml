@@ -60,7 +60,6 @@
             				ajax="false" immediate="true">
             			<p:dataExporter type="xls" target="apontamento-table" fileName="apontamento" />
             		</p:commandButton>
-            		
 				</f:facet>
 				
 			</p:toolbar>
@@ -105,17 +104,7 @@
 		        </h:panelGrid>
 		    </p:fieldset>
 			
-			<p:panel id="panelOptions" 
-					 rendered="#{apontamentoBean.apontamentosSelecionados.size() > 1}">
-				<p:commandButton action="#{apontamentoBean.excluirTodos}" process="@this"
-						title="Excluir todos apontamentos"
-						update="apontamento-table frm:msgs frm:toolbar"
-						value="Excluir todos" icon="fa fa-trash"  />
-				<p:commandButton actionListener="#{apontamentoBean.aprovarTodos}" process="@this" 
-						title="Aprovar todos apontamentos"
-						update="apontamento-table frm:msgs frm:toolbar"
-						value="Aprovar todos" icon="fa fa-check-square-o"  />
-			</p:panel>
+			
 			
 			<p:dataTable value="#{apontamentoBean.todosApontamentos}" var="apontamento" widgetVar="tabela-apontamento"
 					emptyMessage="Nenhum apontamento cadastrado." rows="9" reflow="true"
@@ -134,7 +123,20 @@
 				
 				
 				<f:facet name="header">
-					<div align="right" >
+				<div>
+					<div style="float: left; " >
+					<p:commandButton action="#{apontamentoBean.excluirTodos}" process="@this"
+							rendered="#{apontamentoBean.apontamentosSelecionados.size() > 1}"
+							title="Excluir todos apontamentos"
+							update="apontamento-table frm:msgs frm:toolbar"
+							value="Excluir todos" icon="fa fa-trash"  />
+					<p:commandButton actionListener="#{apontamentoBean.aprovarTodos}" process="@this" 
+							rendered="#{apontamentoBean.apontamentosSelecionados.size() > 1}"
+							title="Aprovar todos apontamentos"
+							update="apontamento-table frm:msgs frm:toolbar"
+							value="Aprovar todos" icon="fa fa-check-square-o"  />
+					</div>
+					<div align="right">
 			        	<p:outputPanel id="panelFilter">   
 			            	
 			            
@@ -143,6 +145,7 @@
 			                	style="width:180px" placeholder="pesquisa de apontamentos"/>
 			                <p:defaultCommand target="globalFilter" scope="panelFilter" />
 			        	</p:outputPanel>       
+		            </div>
 		            </div>
 		        </f:facet>
 		        
@@ -210,7 +213,7 @@
 			</p:dataTable>
 		
 			<p:dialog header="Novo apontamento" widgetVar="edicaoApontamentoDialog" id="apontamento-dialog" 
-					width="500px" height="400px" fixedCenter="true"
+					width="500px" height="400px" fixedCenter="true" 
 					fitViewport="true" style="margin-top: 50px;" showEffect="fade" hideEffect="fade"
 					resizable="false" modal="false" closeOnEscape="true" responsive="true">
 				
@@ -273,8 +276,8 @@
 							<p:outputLabel/>
 							<p:commandButton value="Salvar" id="salvar-button"
 								action="#{apontamentoBean.salvar}"
-								process="apontamento-dialog" update="msgs-dialog painel-dialog"
-								oncomplete="if (!args.validationFailed) PF('edicaoApontamentoDialog').hide()" />
+								process="apontamento-dialog" update="msgs-dialog painel-dialog" onerror="PF('edicaoApontamentoDialog').show()"
+								oncomplete="if (!args.validationFailed) PF('edicaoApontamentoDialog').hide();return false;" />
 							
 							<p:outputLabel/>
 							<p:outputLabel/>

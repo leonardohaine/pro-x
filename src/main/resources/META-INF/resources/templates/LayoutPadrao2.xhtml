@@ -257,7 +257,6 @@
 				icon="ui-icon-check" />
 		</p:confirmDialog>
 		
-		<p:growl id="messages" showDetail="true" sticky="true" life="1000"  />
 	<ui:remove>
 		<p:idleMonitor timeout="${session.maxInactiveInterval}">
 			  <p:ajax event="idle" listener="#{principalBean.logout}" oncomplete="PF('idleDialog').show();" update="messages" />
@@ -275,7 +274,7 @@
 	             draggable="false"
 	             resizable="false"
 	             appendToBody="true"
-	            
+	             fitViewport="true"
 	             style="text-align: center;"
 	             height="100"
 	             width="400"

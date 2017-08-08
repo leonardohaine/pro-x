@@ -42,10 +42,12 @@
 						required="" />
 				</div>
 			</div>
-					<label class="checkbox">
-						     <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Lembrar-me </input>
-					</label>
-			<h:commandButton action="#{principalBean.logando}" value="ENTRAR"  class="btn btn-lg btn-primary btn-block" />
+			<label class="checkbox">
+				     <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Lembrar-me </input>
+			</label>
+			<div class="form-group" align="center">
+				<h:commandButton action="#{principalBean.logando}" value="ENTRAR" style="width: 250px;" class="btn btn-lg btn-primary btn-block" />
+			</div>
 		</form>
 	</div>
 </h:body>
