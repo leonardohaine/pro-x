@@ -8,10 +8,11 @@ import java.util.List;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
-import org.apache.catalina.session.StandardSessionFacade;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
@@ -48,6 +49,8 @@ public class ApontamentoBean implements Serializable {
 	private List<Apontamento> todosApontamentos;
 	private List<Apontamento> apontamentosSelecionados;
 	
+	//private UploadedFile file;		
+	
 	public void prepararNovoCadastro() {
 		apontamento = new Apontamento();
 	}
@@ -59,7 +62,7 @@ public class ApontamentoBean implements Serializable {
 			service.salvar(apontamento);
 			consultar();
 			
-			messages.info("Apontamento realizdo com sucesso!");
+			messages.info("Apontamento realizado com sucesso!");
 			
 			RequestContext.getCurrentInstance().update(
 					Arrays.asList("frm:msgs", "frm:apontamento-table"));
@@ -166,13 +169,60 @@ public class ApontamentoBean implements Serializable {
 	public String getSomaProjetos(){
 		
 		Duration du = Duration.ZERO;
-		
-		for(Apontamento ap : todosApontamentos){
-			du = du.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+		if(todosApontamentos != null){
+			for(Apontamento ap : todosApontamentos){
+				du = du.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+			}
+			System.out.println("Calculando...");
+			return DurationFormatUtils.formatDuration(du.toMillis(), "HH:mm");
+		}else{
+			for(Apontamento ap : apontamentos.findAll()){
+				du = du.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+			}
+			System.out.println("Calculando Total...");
+			return DurationFormatUtils.formatDuration(du.toMillis(), "HH:mm");
 		}
-		System.out.println("Calculando...");
-		return DurationFormatUtils.formatDuration(du.toMillis(), "HH:mm");
 	} 
+	
+	public String getSomaProjetosAprovados(){
+
+		Duration du = Duration.ZERO;
+		if(todosApontamentos != null){
+			for(Apontamento ap : todosApontamentos){
+				du = du.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+			}
+			System.out.println("Calculando...");
+			return DurationFormatUtils.formatDuration(du.toMillis(), "HH:mm");
+		}else{
+			for(Apontamento ap : apontamentos.findAll()){
+				if(ap.getStatus().equals(StatusApontamento.APROVADO)){
+					du = du.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+				}	
+			}
+			System.out.println("Calculando Total...");
+			return DurationFormatUtils.formatDuration(du.toMillis(), "HH:mm");
+		}
+	}
+
+	public String getSomaProjetosPendentes(){
+
+		Duration du = Duration.ZERO;
+		if(todosApontamentos != null){
+			for(Apontamento ap : todosApontamentos){
+				du = du.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+			}
+			System.out.println("Calculando...");
+			return DurationFormatUtils.formatDuration(du.toMillis(), "HH:mm");
+		}else{
+			for(Apontamento ap : apontamentos.findAll()){
+				if(ap.getStatus().equals(StatusApontamento.PENDENTE)){
+					du = du.plusHours(ap.getTempoGasto().getHour()).plusMinutes(ap.getTempoGasto().getMinute());
+				}	
+			}
+			System.out.println("Calculando Total...");
+			return DurationFormatUtils.formatDuration(du.toMillis(), "HH:mm");
+		}
+	}
 	
 	public void consultar(){
 		try{
@@ -199,5 +249,22 @@ public class ApontamentoBean implements Serializable {
 		System.out.println("removendo seleção checkbox..." + event.getSource());
 		
 	}
+	
+	public void upload(FileUploadEvent event) {
+		System.out.println("in handle file upload...");
+		System.out.println("Nome..." + event.getFile().getFileName());
+		System.out.println("Tamanho..." + event.getFile().getSize());
+		System.out.println("ContentType..." + event.getFile().getContentType());
+		System.out.println("Bytes..." + event.getFile().getContents());
+		System.out.println("=============================");
+    }
+	
+//	 public UploadedFile getFile() {
+//        return file;
+//    }
+//	 
+//    public void setFile(UploadedFile file) {
+//        this.file = file;
+//    }
 	
 }

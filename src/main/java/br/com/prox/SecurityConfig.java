@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 
 		//System.out.println("AUTHENTICATION DETAILS: " + authentication.getDetails());
 		auth.inMemoryAuthentication()
-			.withUser("haine").password("leonardo").authorities("ACESSO_SISTEMA", "CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE").and()
+			.withUser("haine").password("leonardo").authorities("ACESSO_SISTEMA", "CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE", "EMPRESA", "CERTIFICADO", "NFE_RECEBIMENTO").and()
 			.withUser("silva").password("diego").authorities("ACESSO_SISTEMA", "CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE");
 	}
 
@@ -69,6 +69,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	          .antMatchers("/projeto.jsf").hasAuthority("PROJETO")
 	          .antMatchers("/apontamento.jsf").hasAuthority("APONTAMENTO")
 	          .antMatchers("/contratante.jsf").hasAuthority("CONTRATANTE")
+	          .antMatchers("/empresa.jsf").hasAuthority("EMPRESA")
+	          .antMatchers("/certificadoDigital.jsf").hasAuthority("CERTIFICADO")
+	          .antMatchers("/nfeRecebimento.jsf").hasAuthority("NFE_RECEBIMENTO")
 				.and()
 			.formLogin()
 			.loginPage("/login.jsf")

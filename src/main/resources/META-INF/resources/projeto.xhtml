@@ -135,7 +135,7 @@
 			</p:dataTable>
 
 					<p:dialog header="Novo projeto" widgetVar="edicaoProjetoDialog" fixedCenter="true"
-						id="projeto-dialog" fitViewport="true" style="margin-top: 30px;"
+						id="projeto-dialog" fitViewport="true" style="margin-top: 10px;"
 						showEffect="fade" hideEffect="fade" resizable="false"
 						modal="false" closeOnEscape="true" responsive="true" width="820">
 						
@@ -200,21 +200,45 @@
 										offIcon="ui-icon-close" />
 
 									<p:outputLabel />
-									
-
-									<p:outputLabel />
-									<p:outputLabel />
+   
 								</p:panelGrid>
 							</p:scrollPanel>
 							
 							</p:tab>
 							<p:tab title="Wiki" >
-								<p:commandButton value="Limpar" style="width: 80px">
-									<p:resetInput target="editor1" ></p:resetInput>
-								</p:commandButton>
 								<p:textEditor widgetVar="editor1"  value="#{projetoBean.projeto.wiki}" 
-										height="250" style="margin-bottom:10px"/>
+										height="200" style="margin-bottom:10px"/>
 							</p:tab>
+							<p:tab title="Arquivos">
+					            <p:scrollPanel style="width:500px;height:300px">
+					            <h:panelGrid columns="2" cellpadding="10" width="500px;">
+					                <p:outputLabel value="Adicionar" for="upload" rendered="true" />
+									<p:fileUpload id="upload" auto="false" rendered="true" 
+										dragDropSupport="true" multiple="true" 
+										fileUploadListener="#{projetoBean.upload}"
+										uploadLabel="Enviar"
+										cancelLabel="Cancelar"/>
+										
+									<p:outputLabel />	
+									<p:dataTable var="file" value="#{projetoBean.projeto.arquivos}">
+									
+										<p:column headerText="Id">
+											<p:outputLabel value="#{file.id}" />
+										</p:column>
+									
+										<p:column headerText="Nome">
+											<p:outputLabel value="#{file.nome}" />
+										</p:column>
+										
+										<p:column headerText="Tipo">
+											<p:outputLabel value="#{file.tipo}" />
+										</p:column>
+									
+									</p:dataTable>	
+										
+					            </h:panelGrid>
+					            </p:scrollPanel>
+					        </p:tab>
 						</p:tabView>
 							<p:commandButton value="Salvar" id="salvar-button" global="false" validateClient="if (event.keyCode == 13) {return false; }"
 										action="#{projetoBean.salvar}" style="width: 70px;"

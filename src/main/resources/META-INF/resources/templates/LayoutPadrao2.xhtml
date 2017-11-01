@@ -19,7 +19,7 @@
 
 		
     <title>PRO-X</title>
-
+    
 <!-- 	<h:outputStylesheet library="algaworks" name="estilo.css" /> -->
 
     <!-- Icons -->
@@ -40,6 +40,11 @@
 <h:body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden   ">
 	<input type="hidden" name="_csrf_header" value="${_csrf.headerName}"/>
 	<input type="hidden" name="_csrf" value="${_csrf.token}"/>
+	
+	<f:metadata>
+		<f:viewAction action="#{empresaBean.consultar}" />
+		<f:viewAction action="#{empresaBean.todasEmpresas}" />
+	</f:metadata>
 
     <header class="app-header navbar">
         <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">☰</button>
@@ -48,8 +53,8 @@
 														      -0.3em 0.1em 0.1em #555,
 														      0.4em -0.3em 0.1em #006; color: blue; ">       PRO-X</a> 
         <ul class="nav navbar-nav d-md-down-none">
-            <li class="nav-item">
-                <a class="nav-link navbar-toggler sidebar-toggler" href="#">☰</a>
+            <li class="nav-item navbar-left">
+                <a class="nav-link navbar-toggler sidebar-toggler" href="#" style="align:float;">☰</a>
             </li>
 
 <!--             <li class="nav-item px-3"> -->
@@ -62,68 +67,30 @@
 <!--                 <a class="nav-link" href="#">Settings</a> -->
 <!--             </li> -->
         </ul>
+        <h:form>
         <ul class="nav navbar-nav ml-auto">
-<!--             <li class="nav-item d-md-down-none"> -->
-<!--                 <a class="nav-link" href="#"><i class="fa fa-bell"></i><span class="badge badge-pill badge-danger">5</span></a> -->
-<!--             </li> -->
-<!--             <li class="nav-item d-md-down-none"> -->
-<!--                 <a class="nav-link" href="#"><i class="fa fa-list"></i></a> -->
-<!--             </li> -->
-<!--             <li class="nav-item d-md-down-none"> -->
-<!--                 <a class="nav-link" href="#"><i class="fa fa-map-marker"></i></a> -->
-<!--             </li> -->
-<!--             <li class="nav-item dropdown"> -->
-<!--                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> -->
-<!--                     <p:graphicImage library="nfx" name="core/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com" /> -->
-<!--                     <span class="d-md-down-none">admin</span> -->
-<!--                 </a> -->
-<!--                 <div class="dropdown-menu dropdown-menu-right"> -->
-
-<!--                     <div class="dropdown-header text-center"> -->
-<!--                         <strong>Account</strong> -->
-<!--                     </div> -->
-
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></a> -->
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="badge badge-success">42</span></a> -->
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tasks<span class="badge badge-danger">42</span></a> -->
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comments<span class="badge badge-warning">42</span></a> -->
-
-<!--                     <div class="dropdown-header text-center"> -->
-<!--                         <strong>Settings</strong> -->
-<!--                     </div> -->
-
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a> -->
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Settings</a> -->
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-usd"></i> Payments<span class="badge badge-default">42</span></a> -->
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></a> -->
-<!--                     <div class="divider"></div> -->
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-shield"></i> Lock Account</a> -->
-<!--                     <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Logout</a> -->
-<!--                 </div> -->
-<!--             </li> -->
-				<li>
-				<h:form>
-					<p:menubar style="width: 110px;">
-						<p:submenu label="#{principalBean.usuarioLogado}" icon="ui-icon-person" >
-							<p:menuitem value="Alterar senha" url="#" icon="ui-icon ui-icon-key" />
-							<p:menuitem value="Sair" url="/logout" icon="ui-icon ui-icon-power" />
-						</p:submenu>
-					</p:menubar>
-				</h:form>
-				</li>
-<!-- 				<li> -->
-<!-- 		        	 <a href="@{/logout}" class="nav-link"><em class="fa  fa-user "></em> Leonardo </a> -->
-<!-- 		      	</li>  -->
-           		 
-<!--            		 <li> -->
-<!-- 		        	 <a href="@{/logout}"><em class="fa  fa-sign-out"></em> Sair </a> -->
-<!-- 		      	 </li>  -->
+            <li class="nav-item d-md-down-none">
+                <p:selectOneMenu value="#{principalBean.empresaSelecionada}" >
+					<f:selectItems value="#{empresaBean.todasEmpresas}" var="emp" 
+						itemLabel="#{emp.cnpj} - #{emp.nomeFantasia}" itemValue="emp" />
+				</p:selectOneMenu>
+            </li>
             
-<!--             <li class="nav-item d-md-down-none"> -->
-<!--                 <a class="nav-link navbar-toggler aside-menu-toggler" href="#">☰</a> -->
-<!--             </li> -->
+            <li class="nav-item d-md-down-none">
+                <a class="nav-link" href="#"><i class="fa fa-map-markerrr"></i></a>
+            </li>
+            
+            <li class="nav-item d-md-down-none">
+                <p:menubar style="width: 110px;">
+					<p:submenu label="#{principalBean.usuarioLogado}" icon="ui-icon-person" >
+						<p:menuitem value="Alterar senha" url="#" icon="ui-icon ui-icon-key" />
+						<p:menuitem value="Sair" url="/logout" icon="ui-icon ui-icon-power" />
+					</p:submenu>
+				</p:menubar>
+            </li>
 
         </ul>
+        </h:form>
     </header>
 
     <div class="app-body">
@@ -131,7 +98,7 @@
             <nav class="sidebar-nav">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="./principal.jsf"><i class="fa fa-home"></i> Dashboard </a> <!--  <span class="badge badge-info">NEW</span>  -->
+                        <a class="nav-link" href="./principal.jsf"><i class="fa fa-tachometer"></i> Dashboard </a> <!--  <span class="badge badge-info">NEW</span>  -->
                     </li>
 
                   <!--   <li class="nav-title">  
@@ -156,8 +123,30 @@
 					      	<li class="nav-item">
 					      		<a class="nav-link" href="./apontamento.jsf"><i /><i class="fa fa-clock-o"></i>Apontamento</a>
 					      	</li>
+					      	
+					      	<li class="nav-item">
+					      		<a class="nav-link" href="./Item.jsf"><i /><i class="fa fa-clock-o"></i>Item</a>
+					      	</li>
                         </ul>
                     </li>
+                    
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-book"></i>Nota Fiscal - NF-e</a>
+                        <ul class="nav-dropdown-items">
+                            
+                           	<li class="nav-item">
+                         		<a class="nav-link" href="./empresa.jsf"><i /><i class="fa fa-address-book-o" aria-hidden="true"></i>Cadastro de empresa</a>
+					      	</li>
+					      	
+					      	<li class="nav-item">
+                         		<a class="nav-link" href="./certificadoDigital.jsf"><i /><i class="fa fa-certificate"></i>Certificado digital</a>
+					      	</li>
+					      	
+					      	<li class="nav-item">
+                         		<a class="nav-link" href="./nfeRecebimento.jsf"><i /><i class="fa fa-download"></i>NF-e recebimento</a>
+					      	</li>
+					 </ul>
+                    </li>      	
                    <!--  <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Icons</a>
                         <ul class="nav-dropdown-items">
@@ -224,7 +213,7 @@
 
             <div class="container-fluid">
             	<div class="animated fadeIn">	
-            		<p:messages id="msgs" />
+            		<p:messages id="msgs" showDetail="true" />
 					<ui:insert name="conteudo" />
 				</div>	
             </div>
@@ -235,7 +224,7 @@
     <footer class="app-footer">
         <a href="Javascript:window.location='${request.contextPath}/principal.jsf'">LHaine</a> © 2017.
         <span class="float-right">
-			<p:clock pattern="HH:mm:ss - dd/MM/yyyy" />- ${environment.getProperty('prox.version')}
+			<p:clock pattern="HH:mm:ss - dd/MM/yyyy" />  ${environment.getProperty('prox.version')}
         </span>
     </footer>
 

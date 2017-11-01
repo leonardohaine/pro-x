@@ -11,14 +11,17 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.prox.model.Apontamento;
+import br.com.prox.model.Arquivo;
 import br.com.prox.model.Consultor;
 import br.com.prox.model.Projeto;
 import br.com.prox.repository.ApontamentoDAO;
+import br.com.prox.repository.ArquivoDAO;
 import br.com.prox.repository.ConsultorDAO;
 import br.com.prox.repository.ProjetoDAO;
 import br.com.prox.service.ProjetoService;
@@ -47,6 +50,9 @@ public class ProjetoBean implements Serializable {
 	private ConsultorDAO consultores;
 	
 	@Autowired
+	private ArquivoDAO arquivos;
+	
+	@Autowired
 	private FacesMessages messages;
 	
 	private Projeto projeto = new Projeto();
@@ -56,6 +62,9 @@ public class ProjetoBean implements Serializable {
 	private List<Consultor> listaConsultores = new ArrayList();
 	
 	private DualListModel<Consultor> consultorModel;
+	
+	private Arquivo arquivo = new Arquivo();
+	private List<Arquivo> listaArquivo = new ArrayList();
 	
 	
 	public DualListModel<Consultor> getConsultorModel(){
@@ -77,6 +86,7 @@ public class ProjetoBean implements Serializable {
 		try {
 			projeto.setConsultor(consultorModel.getTarget());
 			
+			arquivos.save(listaArquivo);
 			service.salvar(projeto);
 			consultar();
 			messages.info("Projeto salvo com sucesso!");
@@ -148,5 +158,26 @@ public class ProjetoBean implements Serializable {
 			RequestContext.getCurrentInstance().update("frm:msgs");
 		}	
 	}
+	
+	public void upload(FileUploadEvent event) {
+		System.out.println("Adicionando arquivos a lista...");
+		System.out.println("Nome..." + event.getFile().getFileName());
+		System.out.println("Tamanho..." + event.getFile().getSize());
+		System.out.println("ContentType..." + event.getFile().getContentType());
+		System.out.println("Bytes..." + event.getFile().getContents());
+		System.out.println("=============================");
+		
+		arquivo.setNome(event.getFile().getFileName());
+		arquivo.setTamanho(event.getFile().getSize());
+		arquivo.setTipo(event.getFile().getContentType());
+		arquivo.setDados(event.getFile().getContents());
+		
+		listaArquivo.add(arquivo);
+		
+		Arrays.asList(arquivo);
+		
+		projeto.setArquivos(listaArquivo);
+		System.out.println(listaArquivo);
+    }
 	
 }

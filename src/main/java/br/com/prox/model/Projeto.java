@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
@@ -61,6 +62,10 @@ public class Projeto implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	private List<Consultor> consultor;
+	
+	@Fetch(value = FetchMode.SUBSELECT)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	private List<Arquivo> arquivos;
 	
 	
 }

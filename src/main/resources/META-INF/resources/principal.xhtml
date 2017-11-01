@@ -16,17 +16,72 @@
   
   		<f:metadata>
 			<f:viewAction action="#{principalBean.logando}" />
+			<f:viewAction action="#{principalBean.countApontamentos}" />
+			<f:viewAction action="#{principalBean.countContratantes}" />
+			<f:viewAction action="#{principalBean.countProjetos}" />
 		</f:metadata>
   
-    <div class="ui-fluid" align="center">
-        
-        <br/><br/><br/> Dashboard<br/>"${session.maxInactiveInterval}"
+    
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-6 ui-lg-4">
+						<p:panel id="clientes" style="background-color: orange; font: white; text-align: center; border-radius: 10px" >
+							<f:facet name="header">
+								<i class="fa fa-users"></i> Clientes
+		        			</f:facet>
+							<p:outputLabel value="#{principalBean.countContratantes}" />
+						</p:panel>
+						
+						
+					</div>
+					<div class="ui-g-12 ui-md-6 ui-lg-4">
+						<p:panel id="apontamentos" style="background-color: red; font: white; text-align: center;">
+							<f:facet name="header">
+								<i class="fa fa-calculator"></i> <p:link outcome="apontamento.jsf" value="Apontamentos"  />
+		        			</f:facet>
+							<p:outputLabel value="#{principalBean.countApontamentos}" />
+						</p:panel>
+					</div>
+					<div class="ui-g-12 ui-md-6 ui-lg-4">
+						<p:panel id="projetos" style="background-color: lightblue; font: white; text-align: center;">
+							<f:facet name="header">
+								<i class="fa fa-home"></i> Projetos
+		        			</f:facet>
+							<p:outputLabel value="#{principalBean.countProjetos}" />
+						</p:panel>
+					</div>
+				
+				    <div class="ui-g-12 ui-md-6 ui-lg-4">
+						<p:panel id="horasAprovadas" style="background-color: lightgreen; font: white; text-align: center;">
+			                <f:facet name="header">
+				        		<i class="fa fa-check-square-o"></i> Horas aprovadas
+				        	</f:facet>
+				        	<p:outputLabel value="#{apontamentoBean.getSomaProjetosAprovados()}" />
+			            </p:panel>
+					</div>
+				    <div class="ui-g-12 ui-md-6 ui-lg-4">
+						<p:panel id="horasPendentes" style="background-color: gold; font: white; text-align: center;">
+			                <f:facet name="header">
+				        		<i class="fa fa-hourglass-o"></i> Horas pendentes
+				        	</f:facet>
+				        	<p:outputLabel value="#{apontamentoBean.getSomaProjetosPendentes()}" />
+			            </p:panel>
+					</div>
+				    <div class="ui-g-12 ui-md-6 ui-lg-4">
+						<p:panel id="totalHoras" style="background-color: lightgray; font: white; text-align: center;">
+				        	<f:facet name="header">
+				        		<i class="fa fa-clock-o"></i> Total de horas
+				        	</f:facet>
+				        	<p:outputLabel value="#{apontamentoBean.getSomaProjetos()}"/>
+				       </p:panel>
+					</div>
+				</div>
+				<!--        <br/><br/><br/> Dashboard<br/>"${session.maxInactiveInterval}"
         	<p:chart type="line" model="#{graficoBean.areaModel}" responsive="true" style="height:300px" />
         	
-<!-- 		<p:chart type="bar" model="#{unidade.barModel}" responsive="true" style="height:300px; width: 500px;"/> -->
+		<p:chart type="bar" model="#{unidade.barModel}" responsive="true" style="height:300px; width: 500px;"/> -->
 <!-- 		<p:chart id="votes" type="pie" model="#{unidade.livePieModel}" style="width:400px;height:300px"/> -->
-    
-    </div> 
+   
     
     </ui:define>   
     </ui:composition>

@@ -37,18 +37,12 @@ public class ContratanteBean {
 	public void salvar() {
 
 		try {
-
 			service.salvar(contratante);
-
 			Messages.addGlobalInfo("Contratante "+contratante.getNome() +" salvo com sucesso");
-			
 			listar();
-
 			contratante = new Contratante();
-
-			
-			
 		} catch (Exception e) {
+			Messages.addGlobalError("Ocorreu um erro ao salvar o contratante");
 			e.printStackTrace();
 		}
 
@@ -67,13 +61,9 @@ public class ContratanteBean {
 			service.excluir(contratanteSelecionado);
 			System.out.println("Contratante " + contratanteSelecionado.getNome() + " excluido com sucesso");
 			contratanteSelecionado = null;
-
-			Messages.addGlobalError("Ocorreu um erro ao salvar o contratante");
-			
 			listar();
-
 		} catch (Exception e) {
-
+			Messages.addGlobalError("Ocorreu um erro ao exluir o contratante");
 			e.printStackTrace();
 
 		}
