@@ -2,7 +2,6 @@ package br.com.prox;
 
 import javax.servlet.Filter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -10,12 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.orm.hibernate5.support.OpenSessionInViewFilter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-
-import br.com.prox.model.Empresa;
-import br.com.prox.nfe.DownloadNFe;
-import br.com.prox.nfe.job.ConsultaDistribuicaoXMLJob;
-import br.com.prox.repository.Empresas;
-import lombok.Data;
 
 @EnableScheduling
 @SpringBootApplication

@@ -31,9 +31,27 @@
 			<id>Primefacess theme</id>
 			<url>http://repository.primefaces.org/</url>
 		</repository>
+		
+		 <repository>
+		    <id>leonardohaine-leonardohaine</id>
+		    <url>https://packagecloud.io/leonardohaine/leonardohaine/maven2</url>
+		    <releases>
+		      <enabled>true</enabled>
+		    </releases>
+		    <snapshots>
+		      <enabled>true</enabled>
+		    </snapshots>
+		  </repository>
+		
 	</repositories>
 
 	<dependencies>
+	
+			<dependency>
+			  <groupId>br.com.nfx</groupId>
+			  <artifactId>nfe-ws</artifactId>
+			  <version>0.0.1</version>
+			</dependency>
 	
 <!-- 		<dependency> -->
 <!-- 	        <groupId>com.google.apis</groupId> -->
@@ -210,11 +228,11 @@
 			<artifactId>txw2</artifactId>
 			<version>20110809</version>
 		</dependency>
-		<dependency>
-			<groupId>br.com.nfx</groupId>
-			<artifactId>nfe-ws</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>br.com.nfx</groupId> -->
+<!-- 			<artifactId>nfe-ws</artifactId> -->
+<!-- 			<version>0.0.1-SNAPSHOT</version> -->
+<!-- 		</dependency> -->
 		
 		<!-- Leonardo - geracao DANFE-->
 		
