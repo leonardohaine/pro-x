@@ -8,9 +8,10 @@ import javax.faces.convert.FacesConverter;
 import org.primefaces.component.picklist.PickList;
 import org.primefaces.model.DualListModel;
 
-import br.com.prox.model.Consultor;
+import br.com.prox.model.Role;
 
-@FacesConverter("consultorPickListConverter")
+
+@FacesConverter("rolePickListConverter")
 public class RoleConverter implements Converter {
 
 	@Override
@@ -20,7 +21,7 @@ public class RoleConverter implements Converter {
 	        Object dualList = ((PickList) arg1).getValue();
 	        DualListModel dl = (DualListModel) dualList;
 	        for (Object o : dl.getSource()) {
-	            String id = "" + ((Consultor) o).getId();
+	            String id = "" + ((Role) o).getRoleId();
 	            if (arg2.equals(id)) {
 	                ret = o;
 	                break;
@@ -28,7 +29,7 @@ public class RoleConverter implements Converter {
 	        }
 	        if (ret == null)
 	            for (Object o : dl.getTarget()) {
-	                String id = "" + ((Consultor) o).getId();
+	                String id = "" + ((Role) o).getRoleId();
 	                if (arg2.equals(id)) {
 	                    ret = o;
 	                    break;
@@ -40,8 +41,8 @@ public class RoleConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
 	    String str = "";
-	    if (arg2 instanceof Consultor) {
-	        str = "" + ((Consultor) arg2).getId();
+	    if (arg2 instanceof Role) {
+	        str = "" + ((Role) arg2).getRoleId();
 	    }
 	    return str;
 	}

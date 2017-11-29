@@ -23,30 +23,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private DataSource datasource;
 	
-	/*@Autowired
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Value("${spring.queries.users-query}")
 	private String usersQuery;
 	
 	@Value("${spring.queries.roles-query}")
-	private String rolesQuery;*/
+	private String rolesQuery;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
-		/*auth.
+		auth.
 		jdbcAuthentication()
 			.usersByUsernameQuery(usersQuery)
 			.authoritiesByUsernameQuery(rolesQuery)
 			.dataSource(datasource)
 			.passwordEncoder(bCryptPasswordEncoder)
-			;*/
+			;
 		 
 		//System.out.println("AUTHENTICATION DETAILS: " + authentication.getDetails());
-		auth.inMemoryAuthentication()
-			.withUser("haine").password("leonardo").authorities("ACESSO_SISTEMA", "CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE", "EMPRESA", "CERTIFICADO", "NFE_RECEBIMENTO").and()
+		/*auth.inMemoryAuthentication()
+			.withUser("haine").password("leonardo").authorities("ACESSO_SISTEMA", "CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE", "EMPRESA", "CERTIFICADO", "NFE_RECEBIMENTO", "USUARIO", "INCLUIR_USUARIO").and()
 			.withUser("silva").password("diego").authorities("ACESSO_SISTEMA", "CONSULTOR", "PROJETO", "APONTAMENTO", "CONTRATANTE");
+		*/
 	}
 
 	@Override
@@ -66,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	          .antMatchers("/error/404.jsf", "/error/500.jsf", "/error/403.jsf").permitAll() // Precisa estar autenticado
 	          .antMatchers("/principal.jsf").hasAuthority("ACESSO_SISTEMA")
 	          .antMatchers("/consultor.jsf").hasAuthority("CONSULTOR")
+	          .antMatchers("/usuario.jsf").hasAuthority("USUARIO")
 	          .antMatchers("/projeto.jsf").hasAuthority("PROJETO")
 	          .antMatchers("/apontamento.jsf").hasAuthority("APONTAMENTO")
 	          .antMatchers("/contratante.jsf").hasAuthority("CONTRATANTE")
@@ -92,10 +94,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			     .exceptionHandling().accessDeniedPage("/error/403.jsf")*/
 			.and()
 			.rememberMe()
-			.rememberMeParameter("remember-me")
 			.tokenRepository(persistentTokenRepository())
-			.tokenValiditySeconds(86400)
-				; 
+			.key("rem-me-key")
+			.rememberMeParameter("remember-me")
+			.rememberMeCookieName("my-remember-me")
+			.tokenValiditySeconds(86400);
 	}
 	
 	

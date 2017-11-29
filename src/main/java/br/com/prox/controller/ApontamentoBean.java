@@ -47,6 +47,7 @@ public class ApontamentoBean implements Serializable {
 	private Apontamento apontamento = new Apontamento();
 	private Apontamento apontamentoSelecionado;
 	private List<Apontamento> todosApontamentos;
+	private List<Apontamento> todosApontamentosData;
 	private List<Apontamento> apontamentosSelecionados;
 	
 	//private UploadedFile file;		
@@ -226,9 +227,9 @@ public class ApontamentoBean implements Serializable {
 	
 	public void consultar(){
 		try{
-			todosApontamentos = apontamentos.findAll();
+			todosApontamentos = service.filtroApontamento(new FiltroApontamento());
 			System.out.println("Consulta retornou " + todosApontamentos.size() + " registros");
-			filtro = new FiltroApontamento();
+			//filtro = new FiltroApontamento();
 		} catch (Exception e) {
 			e.printStackTrace();
 			messages.error("Erro ao tentar consultar apontamento: \n" + e);

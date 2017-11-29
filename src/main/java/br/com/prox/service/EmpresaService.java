@@ -41,6 +41,10 @@ public class EmpresaService implements Serializable {
 		return cidades.findBySiglaUf(uf);
 	}
 	
+	public Empresa findByCpnj(String cnpj){
+		return empresas.findByCnpj(cnpj);
+	}
+	
 	public String getIbgeCidade(String uf, String descricaoMunicipio) {
 		return cidades.findBySiglaUfAndDescricaoMunicipio(uf, descricaoMunicipio);
 	}

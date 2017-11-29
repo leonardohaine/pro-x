@@ -72,8 +72,8 @@ public class Apontamento implements Serializable {
 	@OneToOne
 	private Projeto projeto;
 	
-	@OneToMany
-	private List<Consultor> consultor;
+	//@OneToMany
+	//private List<Consultor> consultor;
 	
 	
 }

@@ -43,7 +43,8 @@
 				</div>
 			</div>
 			<label class="checkbox">
-				     <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Lembrar-me </input>
+				     <input type="checkbox" name="remember-me"> Lembrar-me </input>
+					 <input type="hidden" name="${_csrf.parameterName}"	value="${_csrf.token}" />
 			</label>
 			<div class="form-group" align="center">
 				<h:commandButton action="#{principalBean.logando}" value="ENTRAR" style="width: 250px;" class="btn btn-lg btn-primary btn-block" />

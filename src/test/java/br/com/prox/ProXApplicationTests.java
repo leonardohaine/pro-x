@@ -21,6 +21,7 @@ import br.com.prox.model.CertificadoDigital;
 import br.com.prox.model.ControleNFeDistribuicao;
 import br.com.prox.repository.CertificadoDigitalDAO;
 import br.com.prox.repository.ControleNFeDistribuicaoDAO;
+import br.com.prox.repository.NfeRecebimentoDAO;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -34,6 +35,9 @@ public class ProXApplicationTests {
     
     @Autowired
     private ControleNFeDistribuicaoDAO controleDao;
+    
+    @Autowired
+	private NfeRecebimentoDAO nfeRecebimentoDao;
     
     @Test
     public void testFindByName() throws Exception {
@@ -51,7 +55,9 @@ public class ProXApplicationTests {
     	
     	//controleDao.save(Arrays.asList(controle, controle2));
     	
-    	System.out.println("MAX NSU: " + controleDao.getMaxNsuByEmpresaIdAndTipoAmbiente(85L, "2"));
+    	//System.out.println("MAX NSU: " + controleDao.getMaxNsuByEmpresaIdAndTipoAmbiente(85L, "2"));
+    	
+    	System.out.println("Recebimento by cnpj: " + nfeRecebimentoDao.findByCnpjEmpresa("01554976000250").size());
     	
     	/*Path path = Paths.get("D:\\Projetos MasterSAF DF-e\\epson\\certificados\\Certificado_DFE_EPL_2017_epson1718.pfx");
     	byte[] data = Files.readAllBytes(path);

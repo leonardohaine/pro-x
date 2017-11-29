@@ -66,7 +66,7 @@
 				
 			</p:toolbar>
 			
-			<p:fieldset legend="Filtros" style="margin:5px" collapsed="true" toggleable="true">
+			<p:fieldset legend="Filtros" id="fieldSetFiltro" style="margin:5px" collapsed="true" toggleable="true">
 		        <h:panelGrid columns="8" cellpadding="5">
 		            
 		            <p:outputLabel value="Data inicial:" for="dataInicial" />
@@ -287,13 +287,14 @@
 							<p:outputLabel/>
 							<p:outputLabel/>
 							
-							<p:commandButton value="Salvar" id="salvar-button"
+							<p:commandButton value="Salvar" 
+								id="salvar-button"
 								action="#{apontamentoBean.salvar}"
-								process="apontamento-dialog" update="msgs-dialog painel-dialog" onerror="PF('edicaoApontamentoDialog').show()"
+								process="apontamento-dialog" 
+								update="msgs-dialog painel-dialog fieldSetFiltro" 
+								onerror="PF('edicaoApontamentoDialog').show()"
 								oncomplete="if (!args.validationFailed) PF('edicaoApontamentoDialog').hide();return false;" />
 							
-							<p:outputLabel/>
-							<p:outputLabel/>
 						</p:panelGrid>
 					</p:scrollPanel>
 				</div>

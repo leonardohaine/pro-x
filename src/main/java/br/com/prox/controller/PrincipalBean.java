@@ -7,16 +7,21 @@ import java.time.LocalTime;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.omnifaces.util.Faces;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.prox.model.Empresa;
@@ -24,13 +29,15 @@ import br.com.prox.repository.ApontamentoDAO;
 import br.com.prox.repository.ContratanteDAO;
 import br.com.prox.repository.ProjetoDAO;
 import br.com.prox.service.ApontamentoService;
+import br.com.prox.service.EmpresaService;
 import br.com.prox.service.ProjetoService;
 import lombok.Data;
 
 @Named
 @SessionScoped
 @Data
-public class PrincipalBean {
+public class PrincipalBean implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
+
 	
 	private String usuarioLogado;
 	private Boolean isAutenticado = false;
@@ -57,6 +64,9 @@ public class PrincipalBean {
 	
 	@Autowired
 	private ContratanteDAO contratantes;
+	
+	@Autowired
+	private EmpresaService empresaService;
 	
 	@Autowired
 	ThreadPoolTaskScheduler taskScheduler;
@@ -97,16 +107,36 @@ public class PrincipalBean {
 		countProjetos = projetos.count();
 	}
 	
-	@PostConstruct
+	public void selecionarEmpresa(){
+		// Setting a session cookie in current path.
+		Faces.addResponseCookie("cnpjSelecionado", empresaSelecionada.getCnpj(), (int) (60 * 60 * 24 * 365 * 10));
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		session.setAttribute("cnpjSelecionado", empresaSelecionada.getCnpj());
+		
+		/*ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+	    try {
+			ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+	}
+	
+	//@PostConstruct
 	public void logando(){
 		try{
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+			session.setAttribute("usuario", SecurityContextHolder.getContext().getAuthentication().getName().toUpperCase());
 			
 			if(SecurityContextHolder.getContext().getAuthentication() != null){
 				System.out.println("" + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 				System.out.println("" + SecurityContextHolder.getContext().getAuthentication().getDetails());
 				usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getName().toUpperCase();
 				System.out.println("Usuário logado: " + usuarioLogado + " - Acessos: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+				setEmpresaSelecionada(empresaService.findByCpnj(Faces.getRequestCookie("cnpjSelecionado")));
 				
+				Faces.addResponseCookie("cnpjSelecionado", empresaSelecionada.getCnpj(), (int) (60 * 60 * 24 * 365 * 10));
+				session.setAttribute("cnpjSelecionado", empresaSelecionada.getCnpj());
 			}
 		}catch (Exception e) {
 			usuarioLogado = "Anônimo";
@@ -128,6 +158,14 @@ public class PrincipalBean {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		
+	}
+	
+	public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
+		 //HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext();
+	     //session.setAttribute("usuario", event.getAuthentication().getName());
+		 //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", "Leonardo");
+		
+		System.out.println("Logouuuuuuu");
 	}
 	
 	//@PostConstruct

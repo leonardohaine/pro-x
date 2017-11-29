@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/LayoutPadrao2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+	<ui:define name="conteudo">
+		<f:metadata>
+			<f:viewAction action="#{nfeRecebimentoBean.consultar}" />
+			<f:viewAction action="#{principalBean.logando}" />
+			<f:viewAction action="#{empresaBean.consultar}"  />
+		</f:metadata>
+	
+		<h1>NF-e Recebimento</h1>
+		
+		<h:form id="frm" >
+	
+			<p:messages id="msgs" showDetail="true" showSummary="true" />
+			
+			<p:toolbar id="toolbar">
+				<f:facet name="left">
+					<p:commandButton value="Novo" icon="ui-icon-document"
+						action="#{nfeRecebimentoBean.prepararNovoCadastro}"
+						process="@this" update="nfeRecebimento-dialog"
+						oncomplete="PF('edicaoConsultorDialog').show()">
+						<p:resetInput target="nfeRecebimento-dialog" />
+					</p:commandButton>
+					
+					<span class="ui-separator">
+						<span class="ui-icon ui-icon-grip-dotted-vertical" />
+            		</span>
+            		
+            		<p:commandButton icon="ui-icon-pencil" title="Editar" 
+            			process="@this" update="nfeRecebimento-dialog"
+            			oncomplete="PF('edicaoConsultorDialog').show()"
+            			disabled="#{nfeRecebimentoBean.nfeRecebimentoSelecionado == null}">
+            			<p:resetInput target="nfeRecebimento-dialog" />
+            			
+            			<f:setPropertyActionListener value="#{nfeRecebimentoBean.nfeRecebimentoSelecionado}" 
+            				target="#{nfeRecebimentoBean.nfeRecebimento}" />
+            		</p:commandButton>
+            		
+            		<p:commandButton icon="ui-icon-trash" title="Excluir"
+            			process="@this" update="nfeRecebimento-table frm:msgs toolbar"
+            			action="#{nfeRecebimentoBean.excluir}"
+            			disabled="#{nfeRecebimentoBean.nfeRecebimentoSelecionado == null}">
+            			
+            			<p:confirm icon="ui-icon-alert" header="Confirmação de exclusão"
+            				message="Tem certeza que deseja excluir o nfeRecebimento?" />
+            		</p:commandButton>
+            		
+            		<p:commandButton icon="ui-icon-arrowthick-1-s" title="Exportar para XLS"
+            				ajax="false" immediate="true">
+            			<p:dataExporter type="xls" target="nfeRecebimento-table" fileName="nfeRecebimento" />
+            		</p:commandButton>
+            		
+				</f:facet>
+				
+				
+				
+			</p:toolbar>
+	
+			<p:dataTable value="#{nfeRecebimentoBean.todosNfeRecebimento}" var="nfe" widgetVar="tabela-nfeRecebimento"
+					emptyMessage="Nenhuma NF-e encontrada." rows="10" reflow="true"
+					paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="10, 20, 50, 100" 
+					style="margin-top: 10px;" id="nfeRecebimento-table"
+					selection="#{nfeRecebimentoBean.nfeRecebimentoSelecionado}"
+					
+					selectionMode="single" rowKey="#{nfe.id}">
+				
+				<p:ajax event="rowSelect" update=":frm:toolbar" />
+				<p:ajax event="rowUnselect" update=":frm:toolbar" />
+				
+				<f:facet name="header">
+					<div align="right">
+			            <p:outputPanel id="panelFilter">
+			                <p:outputLabel value=" " />
+			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-nfeRecebimento').filter()" style="width:250px" placeholder="pesquisa de NF-e"/>
+			                <p:defaultCommand target="globalFilter" scope="panelFilter" />
+			            </p:outputPanel>
+		            </div>
+		        </f:facet>
+				
+				
+				
+				<p:column headerText="Status" width="15" styleClass="columnCenter" sortBy="#{nfe.status}" 
+					filterBy="#{nfe.status}"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:graphicImage library="nfx" width="26px" height="26x" 
+						name="#{nfe.status == 100 ? 'layout/images/apply-ok-32.png' : nfe.status == 101 ? 'layout/images/accept-ok-32.png' : ''}"
+						title="#{nfe.status == 100 ? 'Autorizado' : 
+							   nfe.status == 101 ? 'Cancelado' : 
+							   nfe.status == 102 ? 'Inutilizado' : 'Erro'}" />
+						   
+				</p:column>
+				
+				<p:column  width="1.1%" styleClass="columnCenter " >
+					<f:facet name="header">
+				        <i class="fa fa-pencil-square"></i>
+				    </f:facet>
+				
+					<p:graphicImage library="nfx" width="16px" height="16x" 
+						name="#{!nfe.assinatura_invalida_emissao ? 'layout/images/ledgreen22.png' : 'layout/images/ledred22.png'}"
+						title="#{!nfe.assinatura_invalida_emissao ? 'Assinatura válida' : 'Assinatura inválida'}" />
+				</p:column>
+				
+				<p:column headerText="NF-e" width="30" styleClass="columnCenter" sortBy="#{nfe.numero_nfe}" 
+					filterBy="#{nfe.numero_nfe}"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{nfe.numero_nfe}" />
+				</p:column>
+				
+				<p:column headerText="Série" width="1.5%" styleClass="columnCenter" filterBy="#{nfe.serie}"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{nfe.serie}" />
+				</p:column>
+				
+				<p:column headerText="Emissão" width="30" styleClass="columnCenter" sortBy="#{nfe.data_emissao}"
+					filterBy="#{nfe.data_emissao}" filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{nfe.data_emissao}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" type="localDateTime"  />
+					</p:outputLabel>
+				</p:column>
+				
+				<p:column headerText="UF" width="1.2%" styleClass="columnCenter"
+					filterBy="#{nfe.uf_remetente}"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{nfe.uf_remetente}" />
+				</p:column>
+				
+				<p:column headerText="CNPJ" width="40" styleClass="columnCenter" 
+					sortBy="#{nfe.cnpj_remetente}" filterBy="#{nfe.cnpj_remetente}"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{nfe.cnpj_remetente}" />
+				</p:column>
+				
+				<p:column headerText="Razão Social" width="90" styleClass="columnLeft" 
+					sortBy="#{nfe.razao_social_remetente}" filterBy="#{nfe.razao_social_remetente}"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{nfe.razao_social_remetente}" style=" white-space: nowrap; " />
+				</p:column>
+				
+				<p:column headerText="Valor" width="30" styleClass="columnRight" 
+					 filterBy="#{nfe.valor}"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{nfe.valor}"  >
+						<f:convertNumber pattern="##,###.00" />
+					</p:outputLabel>
+				</p:column>
+				
+				<p:column headerText="Autorização" width="40" styleClass="columnCenter" sortBy="#{nfe.data_autorizacao}"
+					filterBy="#{nfe.data_autorizacao}" filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{nfe.data_autorizacao}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" type="localDateTime"  />
+					</p:outputLabel>
+				</p:column>
+				
+				<p:column headerText=" " width="45" styleClass="columnCenter" exportable="false">
+					<p:graphicImage library="nfx" width="23px" height="23x" alt="Enviar e-mail" title="Enviar e-mail"
+					name="layout/images/email-32.png" /> 
+					
+					<p:commandLink action="#{nfeRecebimentoBean.abrirDanfe}" target="_blank"
+						rendered="#{nfe.nfe_doc_xml_emissao_id != null}"
+						process="@this" ajax="false"
+						title="Abrir PDF DANFE"
+						update="nfeRecebimento-table frm:msgs frm:toolbar">
+						
+						<f:setPropertyActionListener value="#{nfe}" target="#{nfeRecebimentoBean.nfeRecebimento}" />
+						<p:graphicImage library="nfx" width="28px" height="28x" alt="Abrir PDF" title="Abrir PDF"
+							name="layout/images/pdf-rounded-32.png" /> 
+					</p:commandLink>
+					
+					<p:commandLink action="#{nfeRecebimentoBean.downloadXmlRecebimento}"
+						rendered="#{nfe.nfe_doc_xml_emissao_id != null}"
+						process="@this" ajax="false"
+						title="Download XML"
+						update="nfeRecebimento-table frm:msgs frm:toolbar">
+						
+						<f:setPropertyActionListener value="#{nfe}" target="#{nfeRecebimentoBean.nfeRecebimento}" />
+						<p:fileDownload value="#{nfeRecebimentoBean.file}" />
+							<p:graphicImage library="nfx" width="28px" height="28x" alt="Abrir XML" title="Abrir XML"
+							name="layout/images/xml-rounded-32.png" />
+					</p:commandLink>		
+				</p:column>
+				
+				<f:facet name="footer">
+			        Total de registros:  #{nfeRecebimentoBean.todosNfeRecebimento.size()}
+			    </f:facet>
+				
+			</p:dataTable>
+		
+			<p:dialog header="Novo título" widgetVar="edicaoConsultorDialog" id="nfeRecebimento-dialog" 
+					fitViewport="true" style="margin-top: 50px;" showEffect="fade" hideEffect="fade"
+					resizable="false" modal="false" closeOnEscape="true" responsive="true">
+				
+				<p:messages id="msgs-dialog" />
+				<p:defaultCommand target="salvar-button" scope="nfeRecebimento-dialog" />
+				
+				<div class="ui-fluid">
+					<p:scrollPanel mode="native" style="max-height:500px">
+						<p:panelGrid columns="2" id="painel-dialog" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8">
+							
+							<p:outputLabel value="Nome" for="nome" />
+							<p:inputText id="nome" size="40" maxlength="80" 
+								value="#{nfeRecebimentoBean.nfeRecebimento.chave}" />
+							
+							<p:commandButton value="Salvar" id="salvar-button"
+								action="#{nfeRecebimentoBean.salvar}"
+								process="nfeRecebimento-dialog" update="msgs-dialog painel-dialog"
+								oncomplete="if (!args.validationFailed) PF('edicaoConsultorDialog').hide()" />
+							
+							<p:outputLabel/>
+							<p:outputLabel/>
+						</p:panelGrid>
+					</p:scrollPanel>
+				</div>
+			</p:dialog>
+		
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

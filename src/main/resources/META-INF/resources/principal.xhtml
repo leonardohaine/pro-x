@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<link rel="stylesheet" type="text/css" href="./css.css" />  
+	<link rel="stylesheet" type="text/css" href="./css.css" />
 </h:head>
   
   <ui:composition template="/templates/LayoutPadrao2.xhtml">
@@ -19,6 +19,7 @@
 			<f:viewAction action="#{principalBean.countApontamentos}" />
 			<f:viewAction action="#{principalBean.countContratantes}" />
 			<f:viewAction action="#{principalBean.countProjetos}" />
+			<f:viewAction action="#{empresaBean.consultar}"  />
 		</f:metadata>
   
     

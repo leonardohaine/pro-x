@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/LayoutPadrao2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+	<ui:define name="conteudo">
+		<f:metadata>
+			<f:viewAction action="#{certificadoDigitalBean.consultar}" />
+			<f:viewAction action="#{principalBean.logando}" />
+		</f:metadata>
+	
+		<h1>Cadastro de certificado digital</h1>
+		
+		<h:form id="frm" enctype="multipart/form-data">
+	
+			<p:messages id="msgs" showDetail="true" showSummary="true"   />
+			
+			<p:toolbar id="toolbar">
+				<f:facet name="left">
+					
+            		<p:commandButton icon="ui-icon-trash" title="Excluir"
+            			process="@this" update="certificado-table frm:msgs toolbar"
+            			action="#{certificadoDigitalBean.excluir}"
+            			disabled="#{certificadoDigitalBean.certificadoSelecionado == null}">
+            			
+            			<p:confirm icon="ui-icon-alert" header="Confirmação de exclusão"
+            				message="Tem certeza que deseja excluir o certificado?" />
+            		</p:commandButton>
+            		
+            		<p:commandButton icon="ui-icon-arrowthick-1-s" title="Exportar para XLS"
+            				ajax="false" immediate="true">
+            			<p:dataExporter type="xls" target="certificado-table" fileName="certificado" />
+            		</p:commandButton>
+            		
+            		<p:commandButton value="Start" action="#{principalBean.consultaDistribuicoDfe}" />
+            		<p:commandButton value="Stop"  action="#{principalBean.stop}" />
+            		
+				</f:facet>
+				
+				
+				
+			</p:toolbar>
+	
+			<p:panel header="Novo certificado digital modelo A1">
+				 <p:fileUpload fileUploadListener="#{certificadoDigitalBean.upload}" mode="advanced" skinSimple="true" 
+				 	allowTypes="/(\.|\/)(pfx)$/" dragDropSupport="true" multiple="true" process="@form"
+				 	update="@form"
+				 	cancelLabel="Cancelar" label="Escolher arquivo" uploadLabel="Salvar" 
+				 	invalidFileMessage="Arquivo inválido" >
+				 	
+				 	 <f:attribute name="senha" value="#{certificadoDigitalBean.certificado.password}" />
+				 </p:fileUpload>	
+				 	
+				 	<p:outputLabel value="Senha do certificado:  " for="senha" />
+				 	<p:password id="senha" value="#{certificadoDigitalBean.certificado.password}" />
+				 	
+				 	
+			</p:panel>
+	
+			<p:dataTable value="#{certificadoDigitalBean.todosCertificados}" var="certificado" widgetVar="tabela-certificado"
+					emptyMessage="Nenhum certificado cadastrado." rows="5" reflow="true"
+					paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5, 10, 15" 
+					style="margin-top: 10px;" id="certificado-table"
+					selection="#{certificadoDigitalBean.certificadoSelecionado}"
+					
+					selectionMode="single" rowKey="#{certificado.id}">
+				
+				<p:ajax event="rowSelect" update=":frm:toolbar" />
+				<p:ajax event="rowUnselect" update=":frm:toolbar" />
+				
+				<f:facet name="header">
+					<div align="right">
+			            <p:outputPanel id="panelFilter">
+			                <p:outputLabel value=" " />
+			                <p:inputText id="globalFilter" onkeyup="if (event.keyCode == 13) PF('tabela-certificado').filter()" style="width:250px" placeholder="pesquisa de itens"/>
+			                <p:defaultCommand target="globalFilter" scope="panelFilter" />
+			            </p:outputPanel>
+		            </div>
+		        </f:facet>
+				
+				<p:column headerText="#" width="50" styleClass="columnCenter"
+					 sortBy="#{certificado.id}" filterBy="#{certificado.id}"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<h:outputText value="#{certificado.id}" />
+				</p:column>
+				
+				<p:column headerText="Razão social" width="40%" sortBy="#{certificado.alias}" filterBy="#{certificado.alias}"
+					filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<h:outputText value="#{certificado.alias}" />
+				</p:column>
+				
+				<p:column headerText="CNPJ" width="15%" filterBy="#{certificado.alias}" styleClass="columnCenter"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<h:outputText value="#{certificado.raiz}#{certificado.filial}#{certificado.digitos}" />
+				</p:column>
+				
+				<p:column headerText="Emissao" width="90" sortBy="#{certificado.data_emissao}" styleClass="columnCenter"
+					filterBy="#{apontamento.data}"
+					filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<p:outputLabel value="#{certificado.data_emissao}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:outputLabel>
+				</p:column>
+				
+				<p:column headerText="Vencimento" width="110" sortBy="#{certificado.data_expiracao}" styleClass="columnCenter">
+					<p:outputLabel value="#{certificado.data_expiracao}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:outputLabel>
+				</p:column>
+				
+				<p:column headerText="Serial Number" width="280" styleClass="columnCenter"
+					 sortBy="#{certificado.serialNumber}" filterBy="#{certificado.serialNumber}"
+					 filterStyle="display: none; visibility: hidden;" filterMatchMode="contains">
+					<h:outputText value="#{certificado.serialNumber}" />
+				</p:column>
+				
+				<p:column headerText="Opções" width="100" styleClass="columnCenter">
+					
+					<p:commandButton icon="fa fa-fw fa-edit"
+						action="#{certificadoDigitalBean.editar(certificado)}" process="@this">
+						
+					</p:commandButton>
+					
+				</p:column>
+				
+				<f:facet name="footer">
+			        Total de registros:  #{certificadoDigitalBean.todosCertificados.size()}
+			    </f:facet>
+				
+			</p:dataTable>
+		
+			<p:dialog header="Novo título" widgetVar="edicaoCertificadoDialog" id="certificado-dialog" 
+					fitViewport="true" style="margin-top: 50px;" showEffect="fade" hideEffect="fade"
+					resizable="false" modal="false" closeOnEscape="true" responsive="true">
+				
+				<p:messages id="msgs-dialog" />
+				<p:defaultCommand target="salvar-button" scope="certificado-dialog" />
+				
+				<div class="ui-fluid">
+					<p:scrollPanel mode="native" style="max-height:500px">
+						<p:panelGrid columns="2" id="painel-dialog" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8">
+							
+							<p:outputLabel value="Nome" for="nome" />
+							<p:inputText id="nome" size="40" maxlength="80" 
+								value="#{certificadoDigitalBean.certificado.alias}" />
+							
+							<p:commandButton value="Salvar" id="salvar-button"
+								action="#{certificadoDigitalBean.salvar}"
+								process="certificado-dialog" update="msgs-dialog painel-dialog"
+								oncomplete="if (!args.validationFailed) PF('edicaoCertificadoDialog').hide()" />
+							
+							<p:outputLabel/>
+							<p:outputLabel/>
+						</p:panelGrid>
+					</p:scrollPanel>
+				</div>
+			</p:dialog>
+		
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

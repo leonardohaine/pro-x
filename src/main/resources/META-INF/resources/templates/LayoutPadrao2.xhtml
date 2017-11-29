@@ -11,15 +11,14 @@
 	<meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template" />
+    <meta name="description" content="PRO-X - Sistema de gestão de projetos" />
     <meta name="author" content="Łukasz Holeczek" />
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,Angular 2,Angular4,Angular 4,jQuery,CSS,HTML,RWD,Dashboard,React,React.js,Vue,Vue.js" />
 <!--     <h:outputStylesheet library="nfx" rel="shortcut icon" name="core/img/favicon.png" /> -->
 <!-- 		<link rel="shortcut icon" type="image/x-icon" href="#{resource['nfx:core/img/logo_nfx.png']}"/> -->
-
 		
     <title>PRO-X</title>
-    
+
 <!-- 	<h:outputStylesheet library="algaworks" name="estilo.css" /> -->
 
     <!-- Icons -->
@@ -32,31 +31,29 @@
 
 <!-- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  -->
 <!-- 		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" /> -->
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
 
 </h:head>
 <!-- sidebar-hidden -->
 
+		<f:metadata>
+			<f:viewAction action="#{empresaBean.consultar}"  />
+			<f:viewAction action="#{nfeRecebimentoBean.consultar}" />
+		</f:metadata>
+
 <h:body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden   ">
 	<input type="hidden" name="_csrf_header" value="${_csrf.headerName}"/>
 	<input type="hidden" name="_csrf" value="${_csrf.token}"/>
-	
-	<f:metadata>
-		<f:viewAction action="#{empresaBean.consultar}" />
-		<f:viewAction action="#{empresaBean.todasEmpresas}" />
-	</f:metadata>
 
     <header class="app-header navbar">
         <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">☰</button>
         <!-- O logotipo está setado no arquivo nfx:core/css/style.css -->
         <a class="navbar-brand" href="#" style="text-shadow: 0.2em 0.5em 0.1em #600,
 														      -0.3em 0.1em 0.1em #555,
-														      0.4em -0.3em 0.1em #006; color: blue; ">       PRO-X</a> 
+														      0.4em -0.3em 0.1em #006; color: blue; ">       PRO-X</a> 
         <ul class="nav navbar-nav d-md-down-none">
-            <li class="nav-item navbar-left">
-                <a class="nav-link navbar-toggler sidebar-toggler" href="#" style="align:float;">☰</a>
+            <li class="nav-item">
+                <a class="nav-link navbar-toggler sidebar-toggler" href="#">☰</a>
             </li>
-
 <!--             <li class="nav-item px-3"> -->
 <!--                 <a class="nav-link" href="#">Dashboard</a> -->
 <!--             </li> -->
@@ -67,38 +64,80 @@
 <!--                 <a class="nav-link" href="#">Settings</a> -->
 <!--             </li> -->
         </ul>
-        <h:form>
         <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item d-md-down-none">
-                <p:selectOneMenu value="#{principalBean.empresaSelecionada}" >
-					<f:selectItems value="#{empresaBean.todasEmpresas}" var="emp" 
-						itemLabel="#{emp.cnpj} - #{emp.nomeFantasia}" itemValue="emp" />
-				</p:selectOneMenu>
-            </li>
+<!--             <li class="nav-item d-md-down-none"> -->
+<!--                 <a class="nav-link" href="#"><i class="fa fa-bell"></i><span class="badge badge-pill badge-danger">5</span></a> -->
+<!--             </li> -->
+<!--             <li class="nav-item d-md-down-none"> -->
+<!--                 <a class="nav-link" href="#"><i class="fa fa-list"></i></a> -->
+<!--             </li> -->
+<!--             <li class="nav-item d-md-down-none"> -->
+<!--                 <a class="nav-link" href="#"><i class="fa fa-map-marker"></i></a> -->
+<!--             </li> -->
+<!--             <li class="nav-item dropdown"> -->
+<!--                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> -->
+<!--                     <p:graphicImage library="nfx" name="core/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com" /> -->
+<!--                     <span class="d-md-down-none">admin</span> -->
+<!--                 </a> -->
+<!--                 <div class="dropdown-menu dropdown-menu-right"> -->
+
+<!--                     <div class="dropdown-header text-center"> -->
+<!--                         <strong>Account</strong> -->
+<!--                     </div> -->
+
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></a> -->
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="badge badge-success">42</span></a> -->
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tasks<span class="badge badge-danger">42</span></a> -->
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comments<span class="badge badge-warning">42</span></a> -->
+
+<!--                     <div class="dropdown-header text-center"> -->
+<!--                         <strong>Settings</strong> -->
+<!--                     </div> -->
+
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a> -->
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Settings</a> -->
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-usd"></i> Payments<span class="badge badge-default">42</span></a> -->
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></a> -->
+<!--                     <div class="divider"></div> -->
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-shield"></i> Lock Account</a> -->
+<!--                     <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Logout</a> -->
+<!--                 </div> -->
+<!--             </li> -->
+				<li>
+				<h:form>
+					<p:menubar style="width: 110px;">
+						<p:submenu label="#{principalBean.usuarioLogado}" icon="fa fa-user" >
+							<p:menuitem value="Alterar senha" url="#" icon="ui-icon ui-icon-key" />
+							<p:menuitem value="Sair" url="/logout" icon="ui-icon ui-icon-power" />
+						</p:submenu>
+					</p:menubar>
+				</h:form>
+				</li>
+<!-- 				<li> -->
+<!-- 		        	 <a href="@{/logout}" class="nav-link"><em class="fa  fa-user "></em> Leonardo </a> -->
+<!-- 		      	</li>  -->
+           		 
+<!--            		 <li> -->
+<!-- 		        	 <a href="@{/logout}"><em class="fa  fa-sign-out"></em> Sair </a> -->
+<!-- 		      	 </li>  -->
             
             <li class="nav-item d-md-down-none">
-                <a class="nav-link" href="#"><i class="fa fa-map-markerrr"></i></a>
-            </li>
-            
-            <li class="nav-item d-md-down-none">
-                <p:menubar style="width: 110px;">
-					<p:submenu label="#{principalBean.usuarioLogado}" icon="ui-icon-person" >
-						<p:menuitem value="Alterar senha" url="#" icon="ui-icon ui-icon-key" />
-						<p:menuitem value="Sair" url="/logout" icon="ui-icon ui-icon-power" />
-					</p:submenu>
-				</p:menubar>
+                <a class="nav-link navbar-toggler aside-menu-toggler " href="#">
+                <i class="fa fa-bank"></i>
+                	<p:graphicImage name="layout/images/refresh-reload-32.png" library="nfx" />
+                </a>
             </li>
 
         </ul>
-        </h:form>
     </header>
 
     <div class="app-body">
         <div class="sidebar">
             <nav class="sidebar-nav">
                 <ul class="nav">
+                	
                     <li class="nav-item">
-                        <a class="nav-link" href="./principal.jsf"><i class="fa fa-tachometer"></i> Dashboard </a> <!--  <span class="badge badge-info">NEW</span>  -->
+                        <a class="nav-link" href="./principal.jsf"><i class="fa fa-dashboard"></i> Dashboard </a> <!--  <span class="badge badge-info">NEW</span>  -->
                     </li>
 
                   <!--   <li class="nav-title">  
@@ -107,6 +146,10 @@
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-book"></i>Cadastro</a>
                         <ul class="nav-dropdown-items">
+                            
+                            <li class="nav-item">
+                         		<a class="nav-link" href="./usuario.jsf"><i /><i class="fa fa-users"></i> Usuários</a>
+					      	</li>
                             
                            	<li class="nav-item">
                          		<a class="nav-link" href="./consultor.jsf"><i /><i class="fa fa-user"></i> Consultores</a>
@@ -123,30 +166,25 @@
 					      	<li class="nav-item">
 					      		<a class="nav-link" href="./apontamento.jsf"><i /><i class="fa fa-clock-o"></i>Apontamento</a>
 					      	</li>
-					      	
-					      	<li class="nav-item">
-					      		<a class="nav-link" href="./Item.jsf"><i /><i class="fa fa-clock-o"></i>Item</a>
-					      	</li>
                         </ul>
                     </li>
-                    
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-book"></i>Nota Fiscal - NF-e</a>
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-sticky-note-o"></i>NF-e</a>
                         <ul class="nav-dropdown-items">
                             
+                            <li class="nav-item">
+                         		<a class="nav-link" href="./empresa.jsf"><i /><i class="fa fa-suitcase"></i>Empresas</a>
+					      	</li>
+                            
                            	<li class="nav-item">
-                         		<a class="nav-link" href="./empresa.jsf"><i /><i class="fa fa-address-book-o" aria-hidden="true"></i>Cadastro de empresa</a>
+                         		<a class="nav-link" href="./nfeRecebimento.jsf"><i /><i class="fa fa-download"></i> Recebimento NF-e</a>
 					      	</li>
 					      	
 					      	<li class="nav-item">
-                         		<a class="nav-link" href="./certificadoDigital.jsf"><i /><i class="fa fa-certificate"></i>Certificado digital</a>
+                         		<a class="nav-link" href="./certificadoDigital.jsf"><i /><i class="fa fa-certificate"></i> Certificado digital</a>
 					      	</li>
-					      	
-					      	<li class="nav-item">
-                         		<a class="nav-link" href="./nfeRecebimento.jsf"><i /><i class="fa fa-download"></i>NF-e recebimento</a>
-					      	</li>
-					 </ul>
-                    </li>      	
+					    </ul>
+					</li>
                    <!--  <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Icons</a>
                         <ul class="nav-dropdown-items">
@@ -213,18 +251,47 @@
 
             <div class="container-fluid">
             	<div class="animated fadeIn">	
-            		<p:messages id="msgs" showDetail="true" />
+            		<p:messages id="msgs" />
 					<ui:insert name="conteudo" />
 				</div>	
             </div>
             <!-- /.conainer-fluid -->
         </main>
+        
+        <aside class="aside-menu" >
+<!--             <ul class="nav nav-tabs" role="tablist"> -->
+<!--                 <li class="nav-item"> -->
+               		
+<!--                	</li> -->
+               	
+<!--                	<li class="nav-item"> -->
+					<p:panel style="margin-left: 0px;">
+						<f:facet name="header">
+							<h:form id="formLink" >
+								<div align="center" >
+									<i class="nav-link">
+										<p:link onclick="PF('empresa').show(); return false;" style="font: bold 12px arial black; color: black; text-shadow: 1px 1px 2px gray, 0 0 25px white, 0 0 5px white;">
+											ESCOLHER EMPRESA
+										</p:link>
+									</i>
+								</div>
+							</h:form>
+						</f:facet>
+	               		<b>CNPJ: </b><br/>
+	               		<p:outputLabel id="cnpjSelecionado" value="#{principalBean.empresaSelecionada.cnpj}" /> <br/>
+	               		<b>Razão social: </b><br/>
+	               		<p:outputLabel id="razao" value="#{principalBean.empresaSelecionada.razaoSocial}" />
+               		</p:panel>
+<!--                	</li> -->
+<!--             </ul> -->
+        </aside>    
+        
     </div>
 
     <footer class="app-footer">
         <a href="Javascript:window.location='${request.contextPath}/principal.jsf'">LHaine</a> © 2017.
         <span class="float-right">
-			<p:clock pattern="HH:mm:ss - dd/MM/yyyy" />  ${environment.getProperty('prox.version')}
+			<p:clock pattern="HH:mm:ss - dd/MM/yyyy" />- ${environment.getProperty('prox.version')}
         </span>
     </footer>
 
@@ -247,6 +314,33 @@
 			<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes"
 				icon="ui-icon-check" />
 		</p:confirmDialog>
+		
+		<p:dialog header="ESCOLHA EMPRESA" widgetVar="empresa" visible="false" modal="true" closable="false" 
+			resizable="false" closeOnEscape="true" responsive="true" width="45%">
+	
+		<p:dataTable var="emp" value="#{empresaBean.todasEmpresas}" reflow="true">
+                <f:facet name="header">
+                	EMPRESAS
+                </f:facet>
+ 
+                <p:column headerText="Cnpj" width="30%">
+                    <h:outputText value="#{emp.cnpj}" />
+                </p:column>
+ 
+                <p:column headerText="Razão Social">
+                    <h:outputText value="#{emp.nomeFantasia}" />
+                </p:column>
+ 
+                <p:column style="width:52px;text-align: center">
+                    <p:commandButton icon="ui-icon-check" action="#{principalBean.selecionarEmpresa}" 
+                    	onsuccess="location.reload();" oncomplete="PF('empresa').hide()" update=":formLink cnpjSelecionado razao" >
+                    		<f:setPropertyActionListener value="#{emp}" 
+            					target="#{principalBean.empresaSelecionada}" />
+                    </p:commandButton>		
+                </p:column>
+            </p:dataTable>
+	
+	</p:dialog>
 		
 	<ui:remove>
 		<p:idleMonitor timeout="${session.maxInactiveInterval}">

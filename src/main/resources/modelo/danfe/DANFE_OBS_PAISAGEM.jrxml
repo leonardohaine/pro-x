@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DANFE_OBS_PAISAGEM" pageWidth="500" pageHeight="103" orientation="Landscape" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="CHAVE_ACESSO" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["AAA"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="xPath">
+		<![CDATA[/NFe]]>
+	</queryString>
+	<field name="DS_INFO_CONTRIB" class="java.lang.String">
+		<fieldDescription><![CDATA[infNFe/infAdic/infCpl]]></fieldDescription>
+	</field>
+	<field name="DS_UF" class="java.lang.String">
+		<fieldDescription><![CDATA[infNFe/emit/enderEmit/UF]]></fieldDescription>
+	</field>
+	<field name="DS_PLACA" class="java.lang.String">
+		<fieldDescription><![CDATA[infNFe/transp/veicTransp/placa]]></fieldDescription>
+	</field>
+	<field name="NR_RNTC" class="java.lang.String">
+		<fieldDescription><![CDATA[infNFe/transp/veicTransp/RNTC]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="80" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField-1" stretchType="RelativeToBandHeight" x="2" y="2" width="496" height="76"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="6" isBold="false" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[( $F{DS_PLACA}== null ? $F{DS_INFO_CONTRIB}.replaceAll("\\|", "\n").trim() : "Placa do Reboque: "+ $F{DS_PLACA}+" UF: "+$F{DS_UF}+ ($F{NR_RNTC} != null ? " Código ANTT: "+ $F{NR_RNTC} : "") +"\n"+$F{DS_INFO_CONTRIB}.replaceAll("\\|", "\n").trim() )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
