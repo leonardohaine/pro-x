@@ -110,60 +110,96 @@
 			</p:dataTable>
 		
 			<p:dialog header="Novo usuário" widgetVar="edicaoUsuarioDialog" id="usuario-dialog"
-					height="450" responsive="true" style="margin-top:30px;"
+					height="450" width="690" responsive="true" style="margin-top:30px;"
 					resizable="false" modal="false" closeOnEscape="true">
 				
 				<p:messages id="msgs-dialog" />
 				<p:defaultCommand target="salvar-button" scope="usuario-dialog" />
 				
-				<h:panelGrid columns="2" id="painel-dialog">
-					<p:outputLabel value="Login" for="login" />
-					<p:inputText id="login" size="60" maxlength="80" style="width: 200px;"
-						value="#{usuarioBean.usuarioEdicao.login}" />
-					
-					<p:outputLabel value="Nome" for="nome" />
-					<p:inputText  id="nome" size="60" maxlength="120"  style="width: 200px;"
-						decimalSeparator="," thousandSeparator="."
-						value="#{usuarioBean.usuarioEdicao.nome}"  />
+				<p:panelGrid  id="painel-dialog" styleClass="ui-noborder">
+				
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Login" for="login" />
+						</p:column>
+						<p:column>	
+							<p:inputText id="login" size="60" maxlength="80" style="width: 200px;"
+								value="#{usuarioBean.usuarioEdicao.login}" disabled="#{usuarioBean.usuarioEdicao.login != null}" />
+						</p:column>
+						<p:column>	
+							<p:outputLabel value="Nome" for="nome" />
+						</p:column>
+						<p:column>	
+							<p:inputText  id="nome" size="60" maxlength="120"  style="width: 200px;"
+								decimalSeparator="," thousandSeparator="."
+								value="#{usuarioBean.usuarioEdicao.nome}"  />
+						</p:column>		
+					</p:row>
+					<p:row>
+						<p:column>
+							
+							<p:outputLabel value="E-mail" for="email" />
+						</p:column>
+						<p:column colspan="3">	
+							<p:inputText id="email" size="60" maxlength="120" style="width: 545px;"
+								value="#{usuarioBean.usuarioEdicao.email}" />
 						
-					<p:outputLabel value="E-mail" for="email" />
-					<p:inputText id="email" size="60" maxlength="120" style="width: 300px;"
-						value="#{usuarioBean.usuarioEdicao.email}" />
-						
-					<p:outputLabel value="Senha" for="senha" />
-					<p:password id="senha" size="60" maxlength="60" style="width: 200px;" feedback="true"
-						weakLabel="Fácil" goodLabel="Boa" strongLabel="Difícil" promptLabel="Digite a senha"
-						match="senhac" value="#{usuarioBean.usuarioEdicao.senha}" />
-						
-					<p:outputLabel value="Confirma Senha" for="senhac" />	
-					<p:password id="senhac" size="60" maxlength="60" style="width: 200px;" 
-						validatorMessage="As senhas não coincidem"
-						value="#{usuarioBean.usuarioEdicao.senha}" >
-						
-					</p:password>	
-						
-					<p:outputLabel value="Permissões" for="pickList" />
-					<p:pickList id="pickList" value="#{usuarioBean.roleModel}" 
-						converter="rolePickListConverter"
-						var="role" itemLabel="#{role.descricao}" itemValue="#{role}" >
-						
-						<f:facet name="sourceCaption">Desabilitadas</f:facet>  
-		        		<f:facet name="targetCaption">Habilitadas</f:facet> 
-						
-					</p:pickList>	
-						
-					<p:outputLabel value="Ativo" for="ativo" />
-					<p:selectBooleanButton id="ativo" value="#{usuarioBean.usuarioEdicao.ativo}"
-						offLabel="Não" onLabel="Sim" 
-						onIcon="ui-icon-check" offIcon="ui-icon-close"/>
-					
-					<p:outputLabel/>
-					<p:commandButton value="Salvar" id="salvar-button"
-						action="#{usuarioBean.salvar}"
-						process="usuario-dialog" update="msgs-dialog painel-dialog"
-						oncomplete="if (!args.validationFailed) PF('edicaoUsuarioDialog').hide()" />
-						
-				</h:panelGrid>
+						</p:column>		
+					</p:row>
+					<p:row rendered="#{usuarioBean.usuarioEdicao.login == null}">
+						<p:column>	
+							<p:outputLabel value="Senha" for="senha" />
+						</p:column>
+						<p:column>	
+							<p:password id="senha" size="60" maxlength="60" style="width: 200px;" feedback="true"
+								weakLabel="Fácil" goodLabel="Boa" strongLabel="Difícil" promptLabel="Digite a senha"
+								match="senhac" value="#{usuarioBean.usuarioEdicao.senha}" />
+						</p:column>
+						<p:column>	
+							<p:outputLabel value="Confirma Senha" for="senhac" />
+						</p:column>
+						<p:column>	
+							<p:password id="senhac" size="60" maxlength="60" style="width: 200px;" 
+								validatorMessage="As senhas não coincidem"
+								value="#{usuarioBean.usuarioEdicao.senha}" >
+								
+							</p:password>	
+						</p:column>		
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Permissões" for="pickList" />
+						</p:column>
+						<p:column colspan="3">	
+							<p:pickList id="pickList" value="#{usuarioBean.roleModel}" 
+								converter="rolePickListConverter"
+								var="role" itemLabel="#{role.descricao}" itemValue="#{role}" >
+								
+								<f:facet name="sourceCaption">Desabilitadas</f:facet>  
+				        		<f:facet name="targetCaption">Habilitadas</f:facet> 
+								
+							</p:pickList>	
+						</p:column>		
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Ativo" for="ativo" />
+						</p:column>
+						<p:column colspan="3">	
+							<p:selectBooleanButton id="ativo" value="#{usuarioBean.usuarioEdicao.ativo}"
+								offLabel="Não" onLabel="Sim" 
+								onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+						</p:column>		
+					</p:row>	
+					<p:row>
+						<p:column colspan="4">	
+							<p:commandButton value="Salvar" id="salvar-button"
+								action="#{usuarioBean.salvar}"
+								process="usuario-dialog" update="msgs-dialog painel-dialog"
+								oncomplete="if (!args.validationFailed) PF('edicaoUsuarioDialog').hide()" />
+						</p:column>		
+					</p:row>			
+				</p:panelGrid>
 			</p:dialog>
 		
 		</h:form>

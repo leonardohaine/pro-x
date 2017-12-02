@@ -65,9 +65,9 @@
 				</f:facet>
 				
 			</p:toolbar>
-			
+			<div>
 			<p:fieldset legend="Filtros" id="fieldSetFiltro" style="margin:5px" collapsed="true" toggleable="true">
-		        <h:panelGrid columns="8" cellpadding="5">
+		        <p:panelGrid columns="8" layout="grid" cellpadding="5">
 		            
 		            <p:outputLabel value="Data inicial:" for="dataInicial" />
        				<p:calendar id="dataInicial" value="#{apontamentoBean.filtro.dataInicial}" required="true"
@@ -103,9 +103,9 @@
 		            	<p:ajax listener="#{apontamentoBean.filtro}" update="frm:apontamento-table frm:msgs" partialSubmit="true" />
 			        </p:selectOneMenu>
 			        
-		        </h:panelGrid>
+		        </p:panelGrid>
 		    </p:fieldset>
-			
+			</div>
 			
 			
 			<p:dataTable value="#{apontamentoBean.todosApontamentos}" var="apontamento" widgetVar="tabela-apontamento"
